@@ -1,9 +1,12 @@
 package com.example.c09_project_book.controller;
-
-import com.example.c09_project_book.dao.BookDetailDao;
-import com.example.c09_project_book.dao.BookViewDao;
 import com.example.c09_project_book.dto.BookDetailDto;
 import com.example.c09_project_book.dto.BookViewDto;
+import com.example.c09_project_book.repository.BookDetailDtoRepository;
+import com.example.c09_project_book.repository.IBookDetailDtoRepository;
+import com.example.c09_project_book.service.BookDetailDtoService;
+import com.example.c09_project_book.service.BookViewDtoService;
+import com.example.c09_project_book.service.IBookDetailDtoService;
+import com.example.c09_project_book.service.IBookViewDtoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +22,8 @@ import java.util.Map;
 
 @WebServlet (name = "ClientController", value = "/clients")
 public class ClientController extends HttpServlet {
+    IBookViewDtoService bookViewDtoService = new BookViewDtoService();
+    IBookDetailDtoService bookDetailDtoService = new BookDetailDtoService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -67,7 +72,7 @@ public class ClientController extends HttpServlet {
 
             BookViewDto.CartItem item = cart.get(bookId);
             if(item == null) {
-                BookDetailDto book = BookDetailDao.findByID(bookId);
+                BookDetailDto book = bookDetailDtoService.findByID(bookId);
                 item = new BookViewDto.CartItem(book, quantity);
             } else {
                 item.setQuantity(item.getQuantity() + quantity);
@@ -80,7 +85,7 @@ public class ClientController extends HttpServlet {
 
     private void viewBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         int id_book= Integer.parseInt(req.getParameter("id"));
-        BookDetailDto book=BookDetailDao.findByID(id_book);
+        BookDetailDto book=bookDetailDtoService.findByID(id_book);
         req.setAttribute("book", book);
         req.getRequestDispatcher("/views/client/book.jsp").forward(req,resp);
     }
@@ -89,7 +94,7 @@ public class ClientController extends HttpServlet {
         System.out.println("View tag list");
         int id_tag = Integer.parseInt(req.getParameter("tag"));
         System.out.println(id_tag);
-        List<BookViewDto> list= BookViewDao.findByTag(id_tag);
+        List<BookViewDto> list= bookViewDtoService.findByTag(id_tag);
         req.setAttribute("list_book", list);
         req.getRequestDispatcher("/views/client/taglist.jsp").forward(req,resp);
     }

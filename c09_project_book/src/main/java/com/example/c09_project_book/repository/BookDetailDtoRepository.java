@@ -1,17 +1,15 @@
-package com.example.c09_project_book.dao;
+package com.example.c09_project_book.repository;
 
 import com.example.c09_project_book.dto.BookDetailDto;
-import com.example.c09_project_book.repository.BaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class BookDetailDao {
-    public static BookDetailDto findByID(int id) throws SQLException {
+public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
+    @Override
+    public BookDetailDto findByID(int bookId) throws SQLException {
         String sql= """
             select b.id,b.name,b.price,b.stock,b.desc,a.name as author, c.name as category
             from book b
@@ -21,7 +19,7 @@ public class BookDetailDao {
             """;
         Connection connection= BaseConnection.getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
-        preparedStatement.setInt(1,id);
+        preparedStatement.setInt(1,bookId);
         ResultSet resultSet=preparedStatement.executeQuery();
         if (resultSet.next()){
             BookDetailDto book=new BookDetailDto();

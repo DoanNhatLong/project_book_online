@@ -1,15 +1,15 @@
-package com.example.c09_project_book.dao;
+package com.example.c09_project_book.repository;
 
 import com.example.c09_project_book.entity.Account;
-import com.example.c09_project_book.repository.BaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AccountDao {
-    public static Account findAccount(String username, String password) throws SQLException {
+public class AccountRepository implements IAccountRepository {
+    @Override
+    public Account findAccount(String username, String password) throws SQLException {
         Connection connection = BaseConnection.getConnection();
         String sql = "select * from account where username=? and password=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);

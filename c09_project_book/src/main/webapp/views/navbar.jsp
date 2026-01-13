@@ -15,7 +15,7 @@
 <main>
     <nav class="navbar navbar-light bg-light fixed-top ">
         <div class="container d-flex align-items-center" id="mainNavbar">
-            <a href="/views/client/home.jsp" class="btn btn-success">
+            <a href="/clients" class="btn btn-success">
                 Trang chủ
             </a>
             <form class="mx-auto d-flex align-items-center h-100" role="search">

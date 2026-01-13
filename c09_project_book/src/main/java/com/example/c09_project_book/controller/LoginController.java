@@ -2,6 +2,8 @@ package com.example.c09_project_book.controller;
 
 import com.example.c09_project_book.dao.AccountDao;
 import com.example.c09_project_book.entity.Account;
+import com.example.c09_project_book.service.AccountService;
+import com.example.c09_project_book.service.IAccountService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,13 +16,14 @@ import java.sql.SQLException;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
+    IAccountService accountService=new AccountService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         Account account;
         try {
-            account = AccountDao.findAccount(username, password);
+            account = accountService.findAccount(username, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

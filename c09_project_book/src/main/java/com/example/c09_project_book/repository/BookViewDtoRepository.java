@@ -1,7 +1,6 @@
-package com.example.c09_project_book.dao;
+package com.example.c09_project_book.repository;
 
 import com.example.c09_project_book.dto.BookViewDto;
-import com.example.c09_project_book.repository.BaseConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookViewDao {
-    public static List<BookViewDto> findByTag(int id_tag) {
+public class BookViewDtoRepository implements IBookViewDtoRepository {
+    @Override
+    public List<BookViewDto> findByTag(int id_tag) {
         List<BookViewDto> bookList = new ArrayList<>();
         String sql = """
                     SELECT b.*, a.name AS authorName
@@ -39,3 +39,4 @@ public class BookViewDao {
         }
     }
 }
+
