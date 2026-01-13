@@ -12,6 +12,14 @@ public class Book {
     public Book() {
     }
 
+    public Book(int id, String name, double price, int stock, String description) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.description = description;
+    }
+
     public Book(int id, String name, double price, int stock,
                 String description, int authorId, int categoryId) {
         this.id = id;
