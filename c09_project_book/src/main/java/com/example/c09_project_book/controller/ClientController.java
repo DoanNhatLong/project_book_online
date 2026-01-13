@@ -4,7 +4,6 @@ import com.example.c09_project_book.dao.BookDetailDao;
 import com.example.c09_project_book.dao.BookViewDao;
 import com.example.c09_project_book.dto.BookDetailDto;
 import com.example.c09_project_book.dto.BookViewDto;
-import com.example.c09_project_book.helper.CartItem;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -54,7 +53,7 @@ public class ClientController extends HttpServlet {
 
     private void goCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         HttpSession session = req.getSession();
-        Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
+        Map<Integer, BookViewDto.CartItem> cart = (Map<Integer, BookViewDto.CartItem>) session.getAttribute("cart");
         if (cart == null) {
             cart = new HashMap<>();
             session.setAttribute("cart", cart);
@@ -66,10 +65,10 @@ public class ClientController extends HttpServlet {
             int bookId = Integer.parseInt(idParam);
             int quantity = Integer.parseInt(quantityParam);
 
-            CartItem item = cart.get(bookId);
+            BookViewDto.CartItem item = cart.get(bookId);
             if(item == null) {
                 BookDetailDto book = BookDetailDao.findByID(bookId);
-                item = new CartItem(book, quantity);
+                item = new BookViewDto.CartItem(book, quantity);
             } else {
                 item.setQuantity(item.getQuantity() + quantity);
             }
