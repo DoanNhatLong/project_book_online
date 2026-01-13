@@ -13,7 +13,7 @@
     <c:import url="/views/library.jsp"/>
 </head>
 <body>
-<c:import url="../navbar.jsp"/>
+<c:import url="navbar.jsp"/>
 <nav class="navbar bg-black " style="margin-top: 4rem; height: 3rem;">
     <div class="container d-flex  align-items-center" id="subNavbar">
         <div>

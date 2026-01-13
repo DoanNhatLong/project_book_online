@@ -1,6 +1,5 @@
 package com.example.c09_project_book.controller;
 
-import com.example.c09_project_book.dao.AccountDao;
 import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.service.AccountService;
 import com.example.c09_project_book.service.IAccountService;
@@ -16,7 +15,13 @@ import java.sql.SQLException;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
-    IAccountService accountService=new AccountService();
+    private IAccountService accountService=new AccountService();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/views/login.jsp").forward(req,resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
