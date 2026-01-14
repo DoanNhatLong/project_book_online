@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Yuan
@@ -9,77 +10,81 @@
 <html>
 <head>
     <title>Title</title>
+    <c:import url="/views/library.jsp"/>
 </head>
-
 <body>
 <main>
     <nav class="navbar navbar-light bg-light fixed-top ">
         <div class="container d-flex align-items-center" id="mainNavbar">
-            <a href="/clients" class="btn btn-success">
+            <a href="/home" class="btn btn-success">
                 Trang chủ
             </a>
-            <form class="mx-auto d-flex align-items-center h-100" role="search">
+            <form class="mx-auto d-flex align-items-center h-100" role="search" method="post" action="/clients?action=searchBook">
                 <input class="form-control me-2"
                        type="search"
-                       placeholder=" Tìm sách, tác giả ..."
+                       name="keyword"
+                       placeholder="Tìm sách ..."
                        aria-label="Search"
-                       style="width: 30rem;">
+                       style="width: 30rem;"
+                       required>
+                <input type="hidden" name="action" value="searchBook">
             </form>
 
             <div class="ms-auto d-flex align-items-center g-2">
-                <div class="dropdown">
-                    <button class="btn p-0 border-0 bg-transparent me-3"
-                            type="button"
-                            id="MenuButton1"
-                            title="Thông báo"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            style="font-size: 1.6rem">
-                        🔔
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li class="dropdown-header"> Thông báo</li>
-                        <li><a class="dropdown-item" href="#">Bạn có đơn hàng mới</a></li>
-                        <li><a class="dropdown-item" href="#">Khuyến mãi hôm nay</a></li>
-                        <li><a class="dropdown-item text-center" href="#">Xem tất cả</a></li>
-                    </ul>
-                    <a href="/clients?action=cart"
-                       class="btn p-0 border-0 bg-transparent me-3 position-relative"
-                       style="font-size: 1.6rem;"
-                       title="Giỏ hàng">
-                        🛒
-                    </a>
 
-                    <button
-                            class="btn p-0 border-0 bg-transparent me-3"
-                            data-bs-toggle="modal"
-                            data-bs-target="#historyModal"
-                            style="font-size: 1.6rem"
-                            title="Tủ sách"
-                    >
-                        📖
-                    </button>
-
-                    <button class="btn p-0 border-0 bg-transparent me-3"
-                            type="button"
-                            id="menuButton2"
-                            title="Tài khoản"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            style="font-size: 1.6rem">
-                        👤
-                    </button>
-                    <div class="dropdown-menu">
-                        <div class="dropdown-header">
-                            <p> User</p>
-                            <p> Số BP còn lại </p>
-                        </div>
-                        <a href="/clients?action=user&id=1" class="btn dropdown-item">Chi tiết tài khoản</a>
-                        <button class="dropdown-item">Mua BP</button>
-                        <button class="dropdown-item text-danger"> Đăng xuất</button>
+                <button class="btn p-0 border-0 bg-transparent me-3 position-relative"
+                        type="button"
+                        id="menuButton2"
+                        title="Tài khoản"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style="font-size: 1.6rem">
+                    👤
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                        <p> User</p>
+                        <p> Số BP còn lại </p>
                     </div>
+                    <a href="/clients?action=info" class="btn dropdown-item">Chi tiết tài khoản</a>
+                    <button class="dropdown-item">Mua BP</button>
+                    <a href="/login" class=" btn dropdown-item text-success"> Đăng nhập </a>
+                    <a href="/login" class=" btn dropdown-item text-danger"> Đăng xuất</a>
                 </div>
+                <button class="btn p-0 border-0 bg-transparent me-3"
+                        type="button"
+                        id="MenuButton1"
+                        title="Thông báo"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style="font-size: 1.6rem">
+                    🔔
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="dropdown-header"> Thông báo</li>
+                    <li><a class="dropdown-item" href="#">Bạn có đơn hàng mới</a></li>
+                    <li><a class="dropdown-item" href="#">Khuyến mãi hôm nay</a></li>
+                    <li><a class="dropdown-item text-center" href="#">Xem tất cả</a></li>
+                </ul>
+                <a href="/clients?action=cart"
+                   class="btn p-0 border-0 bg-transparent me-3 position-relative"
+                   style="font-size: 1.6rem;"
+                   title="Giỏ hàng">
+                    🛒
+                </a>
+
+                <button
+                        class="btn p-0 border-0 bg-transparent me-3"
+                        data-bs-toggle="modal"
+                        data-bs-target="#historyModal"
+                        style="font-size: 1.6rem"
+                        title="Tủ sách"
+                >
+                    📖
+                </button>
+
             </div>
+
         </div>
     </nav>
     <div class="container-fluid">

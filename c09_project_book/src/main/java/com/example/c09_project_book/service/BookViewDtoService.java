@@ -12,4 +12,9 @@ public class BookViewDtoService implements  IBookViewDtoService {
     public List<BookViewDto> findByTag(int idTag) {
         return bookViewDtoRepository.findByTag(idTag);
     }
+
+    @Override
+    public List<BookViewDto> searchByKeyword(String keyword) {
+        return bookViewDtoRepository.searchByKeyword(keyword);
+    }
 }

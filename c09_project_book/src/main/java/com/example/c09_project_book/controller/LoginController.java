@@ -39,10 +39,10 @@ public class LoginController extends HttpServlet {
         }
         HttpSession session = req.getSession();
         session.setAttribute("account", account);
-        if (account.getType().equals("admin")) {
+        if (account.getRole().equals("admin")) {
             resp.sendRedirect("/admin/accounts");
         } else {
-            resp.sendRedirect("views/client/home.jsp");
+            resp.sendRedirect("/views/home.jsp");
         }
     }
 }

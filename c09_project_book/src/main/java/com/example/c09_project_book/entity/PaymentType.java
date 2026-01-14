@@ -4,8 +4,17 @@ public class PaymentType {
     private int id;
     private String name;
     private double rate;
+    boolean isDeleted=false;
 
     public PaymentType() {
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public PaymentType(int id, String name, double rate) {

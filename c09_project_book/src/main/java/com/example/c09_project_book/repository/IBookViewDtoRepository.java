@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IBookViewDtoRepository {
     List<BookViewDto> findByTag(int idTag);
+    List<BookViewDto> searchByKeyword(String keyword);
 }
