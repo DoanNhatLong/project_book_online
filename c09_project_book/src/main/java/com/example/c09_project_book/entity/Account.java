@@ -25,6 +25,13 @@ public class Account {
         this.bonusPoint = bonusPoint;
     }
 
+    public Account(int id, String name, String role) {
+        this.id = id;
+        this.name = name;
+        this.type = role;
+    }
+
+
     public int getId() {
         return id;
     }

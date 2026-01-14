@@ -1,4 +1,4 @@
-package com.example.c09_project_book.controller;
+package com.example.c09_project_book.controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,10 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdminController",value = "/admins")
-public class AdminController extends HttpServlet {
+@WebServlet(name = "BookController",value = "/admins/books")
+public class BookController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("views/admin/admin.jsp").forward(req,resp);
+        req.getRequestDispatcher("views/admin/user/list.jsp").forward(req,resp);
     }
 }
