@@ -6,61 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-
-    <!-- Bootstrap 5.2 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-
-
-    <style>
-        body {
-            background-color: #f4f6f9;
-        }
-
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-        }
-
-        .sidebar h4 {
-            color: #7CFF6B;
-        }
-
-        .sidebar a {
-            color: #e0e0e0;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 6px 0;
-            line-height: 1.2;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: #198754;
-            color: #fff;
-        }
-
-        .admin-header {
-            background: #000;
-            color: #7CFF6B;
-            padding: 15px 20px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card {
-            border-radius: 12px;
-        }
-    </style>
+    <c:import url="../library-css.jsp"/>
+    <c:import url="../admin-css.jsp"/>
 </head>
 <body>
 
@@ -84,8 +31,15 @@
             <!-- Table -->
             <div class="card shadow-sm mt-4">
                 <div class="card-body">
-                    <h5 class="mb-3">Quản lý tài khoản người dùng</h5>
-
+                    <div class="d-flex justify-content-between">
+                        <h5 class="mb-3">Quản lý tài khoản người dùng</h5>
+                        <c:if test="${param.mess == 'true'}">
+                            <div class="alert alert-success text-danger py-0">Cập nhật trạng thái thành công</div>
+                        </c:if>
+                        <c:if test="${param.mess == 'false'}">
+                            <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>
+                        </c:if>
+                    </div>
                     <table class="table table-hover">
                         <thead class="table-dark">
                         <tr>
@@ -98,20 +52,19 @@
                         </thead>
                         <tbody>
                          <c:forEach items="${accountList}" var="account" varStatus="status">
-                             <tr>
-                                 <td>${status.count}</td>
-                                 <td>${account.username}</td>
-                                 <td>${account.role}</td>
-                                 <td>
-                                     ${account.isLocked()}
-                                     <c:if test="${account.isLocked()}">
-                                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','lock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
-                                     </c:if>
-                                     <c:if test="${!account.isLocked()}">
-                                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','unlock')" class="btn btn btn-success btn-sm">Hoạt động</button>
-                                     </c:if>
-                                 </td>
-                             </tr>
+                                 <tr>
+                                     <td>${status.count}</td>
+                                     <td>${account.username}</td>
+                                     <td>${account.role}</td>
+                                     <td>
+                                         <c:if test="${account.isLocked()}">
+                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','unlock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
+                                         </c:if>
+                                         <c:if test="${!account.isLocked()}">
+                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','lock')" class="btn btn btn-success btn-sm">Hoạt động</button>
+                                         </c:if>
+                                     </td>
+                                 </tr>
                          </c:forEach>
                         </tbody>
                     </table>
@@ -130,8 +83,7 @@
         <form action="/admin/accounts" method="post">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Khoá tài khoản</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h6 class="modal-title">Khoá tài khoản</h6>
             </div>
             <div class="modal-body">
                 <input type="hidden" name="username" id="username">
@@ -139,8 +91,8 @@
                 <span>Bạn có chắc chắn <span class="text-danger" id="action-display"></span> tài khoản </span><span class="text-danger" id="username-display"></span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
-                <button type="button" class="btn btn-primary">Có</button>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Không</button>
+                <button type="submit" class="btn btn-danger btn-sm">Có</button>
             </div>
         </div>
         </form>
@@ -156,5 +108,6 @@
         document.getElementById("action-display").innerHTML = action;
     }
 </script>
+<c:import url="../library-js.jsp"/>
 </body>
 </html>

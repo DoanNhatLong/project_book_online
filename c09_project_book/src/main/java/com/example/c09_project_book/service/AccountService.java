@@ -26,6 +26,10 @@ public class AccountService implements IAccountService {
 
     @Override
     public boolean updateStatusAccount(String username,boolean status) {
-        return accountRepository.updateStatusAccount(username,status);
+        Account account = accountRepository.findAccountByUsername(username);
+        if (account!=null){
+          return accountRepository.updateStatusAccount(account.getId(),status);
+        }
+        return false;
     }
 }
