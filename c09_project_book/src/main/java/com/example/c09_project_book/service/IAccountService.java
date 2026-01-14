@@ -9,5 +9,5 @@ public interface IAccountService {
     Account findAccount(String username, String password) throws SQLException;
     List<Account> findAll();
     List<Account> searchByUsername(String username);
-    List<Account> updateStatusAccount(String username);
+    boolean updateStatusAccount(String username,boolean status);
 }

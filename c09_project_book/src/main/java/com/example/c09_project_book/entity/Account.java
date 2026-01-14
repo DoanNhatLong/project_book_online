@@ -6,6 +6,7 @@ public class Account {
     private String password;
     private String role;
     boolean isDeleted=false;
+    boolean isLocked =false;
 
     public boolean isDeleted() {
         return isDeleted;
@@ -25,10 +26,11 @@ public class Account {
         this.role = role;
     }
 
-    public Account(int id, String username, String role) {
+    public Account(int id, String username, String role, boolean isLocked) {
         this.id = id;
         this.username = username;
         this.role = role;
+        this.isLocked = isLocked;
     }
 
     public int getId() {
@@ -63,6 +65,12 @@ public class Account {
         this.password = password;
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
 
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
 
 }
