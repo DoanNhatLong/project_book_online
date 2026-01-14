@@ -80,7 +80,7 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="/admin/accounts" method="post">
+        <form action="/admin/account" method="post">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Khoá tài khoản</h6>
