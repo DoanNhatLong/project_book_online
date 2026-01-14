@@ -11,7 +11,8 @@ public interface IAccountRepository {
     List<Account> findAll();
     /* chanhtv*/
     List<Account> searchByUsername(String username);
+    Account findAccountByUsername(String username);
     /* chanhtv*/
-    List<Account> updateStatusAccount(String username);
+    boolean updateStatusAccount(int id,boolean status);
 
 }

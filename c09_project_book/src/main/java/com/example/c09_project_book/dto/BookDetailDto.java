@@ -22,6 +22,7 @@ public class BookDetailDto {
         this.category = category;
     }
 
+
     public int getId() {
         return id;
     }

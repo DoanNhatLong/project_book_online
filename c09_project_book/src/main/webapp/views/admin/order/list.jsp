@@ -7,58 +7,9 @@
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
 
-    <!-- Bootstrap 5.2 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <c:import url="../library-css.jsp"/>
+    <c:import url="../admin-css.jsp"/>
 
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f4f6f9;
-        }
-
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-        }
-
-        .sidebar h4 {
-            color: #7CFF6B;
-        }
-
-        .sidebar a {
-            color: #e0e0e0;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 6px 0;
-            line-height: 1.2;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: #198754;
-            color: #fff;
-        }
-
-        .admin-header {
-            background: #000;
-            color: #7CFF6B;
-            padding: 15px 20px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card {
-            border-radius: 12px;
-        }
-    </style>
 </head>
 <body>
 
@@ -113,6 +64,6 @@
     </div>
 
 </div>
-
+<c:import url="../library-js.jsp"/>
 </body>
 </html>
