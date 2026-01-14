@@ -2,7 +2,7 @@ package com.example.c09_project_book.entity;
 
 public class Account {
     private int id;
-    private String name;
+    private String username;
     private String password;
     private String role;
     boolean isDeleted=false;
@@ -18,17 +18,17 @@ public class Account {
     public Account() {
     }
 
-    public Account(int id, String name, String password, String role) {
+    public Account(int id, String username, String password, String role) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public Account(int id, String name, String password) {
+    public Account(int id, String username, String role) {
         this.id = id;
-        this.name = name;
-        this.password = password;
+        this.username = username;
+        this.role = role;
     }
 
     public int getId() {
@@ -47,12 +47,12 @@ public class Account {
         this.role = role;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

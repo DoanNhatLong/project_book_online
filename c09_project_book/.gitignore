@@ -40,4 +40,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-project_book_online\c09_project_book\src\main\java\com\example\c09_project_book\repository\BaseConnection.java
+/src/main/java/com/example/c09_project_book/repository/BaseConnection.java

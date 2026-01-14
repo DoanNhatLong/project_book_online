@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface IAccountRepository {
     Account findAccount(String username, String password) throws SQLException;
+    /* chanhtv*/
     List<Account> findAll();
+    /* chanhtv*/
     List<Account> searchByUsername(String username);
+    /* chanhtv*/
     List<Account> updateStatusAccount(String username);
 
 }

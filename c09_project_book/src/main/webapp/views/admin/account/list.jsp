@@ -97,8 +97,8 @@
                          <c:forEach items="${accountList}" var="account" varStatus="status">
                              <tr>
                                  <td>${status.count}</td>
-                                 <td>${account.name}</td>
-                                 <td>${account.type}</td>
+                                 <td>${account.username}</td>
+                                 <td>${account.role}</td>
                              </tr>
                          </c:forEach>
                         </tbody>

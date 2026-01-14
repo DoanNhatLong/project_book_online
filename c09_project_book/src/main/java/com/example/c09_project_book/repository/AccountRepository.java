@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
-    private final String SELECT_ALL = "select * from account;";
+    private final String SELECT_ALL = "select * from account where isdeleted =0;";
     private final String SEARCH_NAME = "select s.*, c.name as class_name from students s join classes c on s.class_id=c.id where s.name like ?;";
     private final String INSERT_INTO = " insert into students(name,gender,score,class_id) values(?,?,?,?);";
 
@@ -46,7 +46,7 @@ public class AccountRepository implements IAccountRepository {
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("username");
-                String role = resultSet.getString("type");
+                String role = resultSet.getString("role");
                 Account account = new Account(id,name,role);
                 accountList.add(account);
             }
