@@ -1,5 +1,5 @@
--- create database project_c09_book_online;
--- use project_c09_book_online;
+create database if not exists project_c09_book_online;
+use project_c09_book_online;
 
 -- =========================
 -- AUTHOR
@@ -272,5 +272,3 @@ VALUES
 insert into chapter(id_book,chapter_unlock) values
 (1,3);
 
-insert into account_chapter(id_account,add_pointid_chapter,point) 
-values (3,1,200);
