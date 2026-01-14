@@ -12,6 +12,20 @@
 
 </head>
 <body>
+<c:if test="${sessionScope.message != null}">
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div class="toast show" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto text-primary">Thông báo</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                    ${sessionScope.message}
+            </div>
+        </div>
+    </div>
+    <c:remove var="message" scope="session"/>
+</c:if>
 
 <div class="d-flex">
 
@@ -39,22 +53,26 @@
                         <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Tên sách</th>
-                            <th>Tác giả</th>
+                            <th>ID khách hàng</th>
+                            <th>Tổng giá</th>
+                            <th>Ngày mua</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Sách 1</td>
-                            <td>Tác giả A</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-success">Sửa</a>
-                                <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-                            </td>
-                        </tr>
-                        </tbody>
+                        <c:forEach items="${orderList}" var="order" varStatus="status">
+                            <tr>
+                                <td>${status.count}</td>
+                                <td>${order.id_customer}</td>
+                                <td>${order.total}</td>
+                                <td>${order.time}</td>
+                                <td>
+                                    <a href="/admin/order?action=add" class="btn btn-sm btn-success">Thêm</a>
+                                    <a href="/admin/order?action=delete&id=${order.id}" class="btn btn-sm btn-danger"  onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')">Xóa</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+
                     </table>
 
                 </div>
