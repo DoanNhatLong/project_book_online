@@ -2,21 +2,22 @@ package com.example.c09_project_book.entity;
 
 import java.sql.Date;
 
-public class AddPoint {
+public class ChangePoint {
     private int id;
-    private int accountId;
-    private int orderId;
+    private int id_account;
+    private int id_order;
     private int point;
     private String type;
     private Date time;
+    boolean isDeleted=false;
 
-    public AddPoint() {
+    public ChangePoint() {
     }
 
-    public AddPoint(int id, int accountId, int orderId, int point, String type, Date time) {
+    public ChangePoint(int id, int id_account, int id_order, int point, String type, Date time) {
         this.id = id;
-        this.accountId = accountId;
-        this.orderId = orderId;
+        this.id_account = id_account;
+        this.id_order = id_order;
         this.point = point;
         this.type = type;
         this.time = time;
@@ -30,20 +31,20 @@ public class AddPoint {
         this.id = id;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getId_account() {
+        return id_account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId_account(int id_account) {
+        this.id_account = id_account;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId_order() {
+        return id_order;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId_order(int id_order) {
+        this.id_order = id_order;
     }
 
     public int getPoint() {

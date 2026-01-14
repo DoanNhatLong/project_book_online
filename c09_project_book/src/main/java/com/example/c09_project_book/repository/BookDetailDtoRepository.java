@@ -15,7 +15,7 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
             from book b
             join author a on b.id_author=a.id
             join category c on b.id_category=c.id
-            where b.id=?
+            where b.isdeleted=0 and b.id=?
             """;
         Connection connection= BaseConnection.getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement(sql);

@@ -1,31 +1,40 @@
 package com.example.c09_project_book.entity;
 
 public class BookTag {
-    private int bookId;
-    private int tagId;
+    private int id_book;
+    private int id_tag;
+    boolean isDeleted=false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public BookTag() {
     }
 
-    public BookTag(int bookId, int tagId) {
-        this.bookId = bookId;
-        this.tagId = tagId;
+    public BookTag(int id_book, int id_tag) {
+        this.id_book = id_book;
+        this.id_tag = id_tag;
     }
 
-    public int getBookId() {
-        return bookId;
+    public int getId_book() {
+        return id_book;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setId_book(int id_book) {
+        this.id_book = id_book;
     }
 
-    public int getTagId() {
-        return tagId;
+    public int getId_tag() {
+        return id_tag;
     }
 
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
+    public void setId_tag(int id_tag) {
+        this.id_tag = id_tag;
     }
 }
 

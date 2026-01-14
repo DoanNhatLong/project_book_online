@@ -3,6 +3,15 @@ package com.example.c09_project_book.entity;
 public class Author {
     private int id;
     private String name;
+    boolean isDeleted=false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public Author() {
     }

@@ -14,16 +14,24 @@
 </head>
 <body>
 <h2>Cart</h2>
+    <c:import url="/views/navbar.jsp"/>
 
     <div class="container pt-5">
         <h2 class="mb-4">Giỏ hàng của bạn</h2>
+        <c:if test="${not empty loginRequired}">
+            <div style="color:red; margin-bottom:10px;">
+                    ${loginRequired}
+            </div>
+        </c:if>
 
         <c:choose>
             <c:when test="${empty sessionScope.cart}">
                 <p>Giỏ hàng trống.</p>
             </c:when>
             <c:otherwise>
-                <form action="/clients?action=updateCart" method="post">
+                <form action="/clients" method="get">
+                    <input type="hidden" name="accountId" value="${sessionScope.account.id}"/>
+
                     <div class="table-responsive">
                         <table class="table table-striped align-middle">
                             <thead>
@@ -51,11 +59,10 @@
                                     </td>
                                     <td>${item.book.price}</td>
                                     <td>${lineTotal}</td>
-                                    <td>
-                                        <a href="/clients?action=removeCart&id=${item.book.id}"
-                                           class="btn btn-sm btn-danger">Xóa</a>
+                                    <td> Xóa
                                     </td>
                                 </tr>
+                                <input type="hidden" name="price_${item.book.id}" value="${item.book.price}"/>
                                 <c:set var="total" value="${total + lineTotal}"/>
                             </c:forEach>
                             </tbody>
@@ -65,8 +72,8 @@
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <h5 class="mb-0">Tổng tiền: ${total} VND</h5>
                         <div>
-                            <button type="submit" class="btn btn-warning">Cập nhật số lượng</button>
-                            <a href="/clients?action=checkout" class="btn btn-primary">Thanh toán</a>
+                            <button type="submit" name="action" value="updateCart" class="btn btn-warning">Cập nhật số lượng</button>
+                            <button type="submit" name="action" value="checkout" class="btn btn-success">Thanh toán</button>
                         </div>
                     </div>
                 </form>

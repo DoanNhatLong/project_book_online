@@ -5,30 +5,38 @@ public class Book {
     private String name;
     private double price;
     private int stock;
-    private String description;
-    private int authorId;
-    private int categoryId;
-
+    private String desc;
+    private int id_author;
+    private int id_category;
+    boolean isDeleted=false;
     public Book() {
     }
 
-    public Book(int id, String name, double price, int stock, String description) {
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Book(int id, String name, double price, int stock, String desc) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.description = description;
+        this.desc = desc;
     }
 
     public Book(int id, String name, double price, int stock,
-                String description, int authorId, int categoryId) {
+                String desc, int id_author, int id_category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.description = description;
-        this.authorId = authorId;
-        this.categoryId = categoryId;
+        this.desc = desc;
+        this.id_author = id_author;
+        this.id_category = id_category;
     }
 
     public int getId() {
@@ -63,27 +71,27 @@ public class Book {
         this.stock = stock;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public int getId_author() {
+        return id_author;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setId_author(int id_author) {
+        this.id_author = id_author;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public int getId_category() {
+        return id_category;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setId_category(int id_category) {
+        this.id_category = id_category;
     }
 }

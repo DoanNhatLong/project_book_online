@@ -4,25 +4,31 @@ public class Account {
     private int id;
     private String name;
     private String password;
-    private int bonusPoint;
-    private String type;
+    private String role;
+    boolean isDeleted=false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public Account() {
     }
 
-    public Account(int id, String name, String password, int bonusPoint, String type) {
+    public Account(int id, String name, String password, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.bonusPoint = bonusPoint;
-        this.type = type;
+        this.role = role;
     }
 
-    public Account(int id, String name, String password, int bonusPoint) {
+    public Account(int id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.bonusPoint = bonusPoint;
     }
 
     public int getId() {
@@ -33,12 +39,12 @@ public class Account {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getRole() {
+        return role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getName() {
@@ -57,11 +63,5 @@ public class Account {
         this.password = password;
     }
 
-    public int getBonusPoint() {
-        return bonusPoint;
-    }
 
-    public void setBonusPoint(int bonusPoint) {
-        this.bonusPoint = bonusPoint;
-    }
 }

@@ -3,35 +3,44 @@ package com.example.c09_project_book.entity;
 import java.sql.Date;
 
 public class AccountChapter {
-    private int accountId;
-    private int chapterId;
+    private int id_account;
+    private int id_chapter;
     private int point;
     private Date time;
+    boolean isDeleted=false;
 
     public AccountChapter() {
     }
 
-    public AccountChapter(int accountId, int chapterId, int point, Date time) {
-        this.accountId = accountId;
-        this.chapterId = chapterId;
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public AccountChapter(int id_account, int id_chapter, int point, Date time) {
+        this.id_account = id_account;
+        this.id_chapter = id_chapter;
         this.point = point;
         this.time = time;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getId_account() {
+        return id_account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId_account(int id_account) {
+        this.id_account = id_account;
     }
 
-    public int getChapterId() {
-        return chapterId;
+    public int getId_chapter() {
+        return id_chapter;
     }
 
-    public void setChapterId(int chapterId) {
-        this.chapterId = chapterId;
+    public void setId_chapter(int id_chapter) {
+        this.id_chapter = id_chapter;
     }
 
     public int getPoint() {

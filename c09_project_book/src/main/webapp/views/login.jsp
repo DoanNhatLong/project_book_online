@@ -13,6 +13,28 @@
   <c:import url="/views/library.jsp"/>
 </head>
 <body>
+<%------Test lỗi -----%>
+<%--<button class="btn p-0 border-0 bg-transparent me-3 position-relative"--%>
+<%--        type="button"--%>
+<%--        id="menuButton2"--%>
+<%--        title="Tài khoản"--%>
+<%--        data-bs-toggle="dropdown"--%>
+<%--        aria-expanded="false"--%>
+<%--        style="font-size: 1.6rem">--%>
+<%--  👤--%>
+<%--</button>--%>
+<%--<div class="dropdown-menu">--%>
+<%--  <div class="dropdown-header">--%>
+<%--    <p> User</p>--%>
+<%--    <p> Số BP còn lại </p>--%>
+<%--  </div>--%>
+<%--  <a href="/clients?action=info" class="btn dropdown-item">Chi tiết tài khoản</a>--%>
+<%--  <button class="dropdown-item">Mua BP</button>--%>
+<%--  <a href="/login" class=" btn dropdown-item text-success"> Đăng nhập </a>--%>
+<%--  <a href="/login" class=" btn dropdown-item text-danger"> Đăng xuất</a>--%>
+<%--</div>--%>
+
+
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
   <div class="card shadow p-4" style="width: 400px;">
     <h3 class="text-center mb-4">Đăng nhập</h3>

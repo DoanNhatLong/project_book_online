@@ -2,18 +2,29 @@ package com.example.c09_project_book.entity;
 
 public class Customer {
     private int id;
-    private int accountId;
+    private int id_account;
     private String name;
     private String phone;
     private String email;
     private String address;
+    boolean isDeleted=false;
+
+
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public Customer() {
     }
 
-    public Customer(int id, int accountId, String name, String phone, String email, String address) {
+    public Customer(int id, int id_account, String name, String phone, String email, String address) {
         this.id = id;
-        this.accountId = accountId;
+        this.id_account = id_account;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -28,12 +39,12 @@ public class Customer {
         this.id = id;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getId_account() {
+        return id_account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId_account(int id_account) {
+        this.id_account = id_account;
     }
 
     public String getName() {

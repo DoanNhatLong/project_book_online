@@ -3,17 +3,26 @@ import java.sql.Date;
 
 public class Order {
     private int id;
-    private int customerId;
+    private int id_customer;
     private String status;
     private int total;
     private Date time;
+    boolean isDeleted=false;
 
     public Order() {
     }
 
-    public Order(int id, int customerId, String status, int total, Date time) {
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Order(int id, int id_customer, String status, int total, Date time) {
         this.id = id;
-        this.customerId = customerId;
+        this.id_customer = id_customer;
         this.status = status;
         this.total = total;
         this.time = time;
@@ -27,12 +36,12 @@ public class Order {
         this.id = id;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getId_customer() {
+        return id_customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setId_customer(int id_customer) {
+        this.id_customer = id_customer;
     }
 
     public String getStatus() {

@@ -14,6 +14,21 @@
 </head>
 <body>
 <c:import url="navbar.jsp"/>
+<c:if test="${sessionScope.message != null}">
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div class="toast show" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto text-primary">Thông báo</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                    ${sessionScope.message}
+            </div>
+        </div>
+    </div>
+    <c:remove var="message" scope="session"/>
+</c:if>
+
 <nav class="navbar bg-black " style="margin-top: 4rem; height: 3rem;">
     <div class="container d-flex  align-items-center" id="subNavbar">
         <div>
@@ -24,12 +39,12 @@
                     aria-expanded="false"
             > Thể loại
             </button>
-            <button class="btn btn-outline-light me-2"> Đề cử sách</button>
-            <button class="btn btn-outline-light"> Thảo luận</button>
+            <a href="/clients?action=info" class="btn btn-outline-light me-2"> Tài khoản</a>
+            <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
         </div>
         <div>
-            <button class="btn btn-outline-light me-2"> Hướng dẫn</button>
-            <button class="btn btn-outline-light"> Mua BP</button>
+            <a href="/login" class="btn btn-outline-warning me-2"> Đăng nhập</a>
+            <button class="btn btn-outline-warning"> Mua BP</button>
         </div>
 
     </div>
@@ -61,16 +76,21 @@
             <div id="carouselExampleCaptions" class="carousel slide h-100">
                 <div class="carousel-inner h-100">
                     <div class="carousel-item active h-100">
-                        <img src="/image/b1.jpg" class="d-block w-100 h-100" alt="..."
+                        <a href="/clients?action=book&id=3">
+                            <img src="/image/b1.jpg" class="d-block w-100 h-100" alt="..."
+                                 style="object-fit: cover;">
+                        </a>
+                    </div>
+                    <div class="carousel-item h-100">
+                        <a href="/clients?action=book&id=1">
+                        <img src="/image/img%202.jpg" class="d-block w-100 h-100" alt="..."
                              style="object-fit: cover;">
+                        </a>
                     </div>
                     <div class="carousel-item h-100">
                         <img src="/css/images.jpg" class="d-block w-100 h-100" alt="..."
                              style="object-fit: cover;">
-                    </div>
-                    <div class="carousel-item h-100">
-                        <img src="/css/images.jpg" class="d-block w-100 h-100" alt="..."
-                             style="object-fit: cover;">
+
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
@@ -107,10 +127,10 @@
     </div>
 </div>
 <div class="container mt-4" style="overflow: visible; position: relative; z-index: 1;">
-    <h5>Danh sách nổi bật</h5>
-    <div class="d-flex overflow-auto gap-3 py-2" style="white-space: nowrap;">
-        <c:forEach var="i" begin="1" end="10">
-            <a href="/clients?action=book&id=${i}" class="d-block flex-shrink-0" style="width: 10rem;">
+
+    <div class="d-flex overflow-auto gap-3 py-2" style="white-space: nowrap;margin-top: 9rem" >
+        <c:forEach var="i" begin="1" end="7">
+            <a href="/clients?action=book&id=${i}" class="d-block flex-shrink-0" style="width: 10rem; ">
                 <img src="/css/images.jpg"
                      class="img-fluid rounded"
                      alt="Sách ${i}"
@@ -120,6 +140,55 @@
         </c:forEach>
     </div>
 </div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header text-center">Tác giả yêu thích</div>
+                <ul class="list-group list-group-flush">
+                    <c:forEach var="i" begin="1" end="5">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${i}. Tên sách ${i}</span>
+                            <span class="badge bg-primary rounded-pill">#</span>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header text-center">Thể loại yêu thích</div>
+                <ul class="list-group list-group-flush">
+                    <c:forEach var="i" begin="1" end="5">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${i}. Tên sách ${i}</span>
+                            <span class="badge bg-success rounded-pill">#</span>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header text-center">Sách đề cử</div>
+                <ul class="list-group list-group-flush">
+                    <c:forEach var="i" begin="1" end="5">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${i}. Tên sách ${i}</span>
+                            <span class="badge bg-warning rounded-pill">#</span>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 

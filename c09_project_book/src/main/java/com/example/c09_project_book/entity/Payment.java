@@ -2,17 +2,26 @@ package com.example.c09_project_book.entity;
 
 public class Payment {
     private int id;
-    private int orderId;
-    private int typeId;
+    private int id_order;
+    private int id_type;
     private String status;
+    boolean isDeleted=false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public Payment() {
     }
 
-    public Payment(int id, int orderId, int typeId, String status) {
+    public Payment(int id, int id_order, int id_type, String status) {
         this.id = id;
-        this.orderId = orderId;
-        this.typeId = typeId;
+        this.id_order = id_order;
+        this.id_type = id_type;
         this.status = status;
     }
 
@@ -24,20 +33,20 @@ public class Payment {
         this.id = id;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId_order() {
+        return id_order;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId_order(int id_order) {
+        this.id_order = id_order;
     }
 
-    public int getTypeId() {
-        return typeId;
+    public int getId_type() {
+        return id_type;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setId_type(int id_type) {
+        this.id_type = id_type;
     }
 
     public String getStatus() {

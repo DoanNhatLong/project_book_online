@@ -10,4 +10,6 @@ public interface IBookViewDtoService {
 
 
     List<BookViewDto> findByTag(int idTag);
+
+    List<BookViewDto> searchByKeyword(String keyword);
 }
