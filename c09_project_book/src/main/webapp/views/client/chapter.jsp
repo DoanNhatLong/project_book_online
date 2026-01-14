@@ -6,6 +6,7 @@
     <c:import url="/views/library.jsp"/>
 </head>
 <body>
+<c:import url="../navbar.jsp"/>
 <c:if test="${sessionScope.message != null}">
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div class="toast show" role="alert">
@@ -94,6 +95,8 @@
                         <form action="/clients" method="post">
                             <input type="hidden" name="action" value="unlockChapter">
                             <input type="hidden" name="chapter" value="${i}">
+                            <input type="hidden" name="cost" value="${sessionScope.chapter.point}">
+                            <input type="hidden" name="id_book" value="${sessionScope.chapter.id_book}">
                             <button type="submit" class="btn btn-primary">
                                 Xác nhận
                             </button>

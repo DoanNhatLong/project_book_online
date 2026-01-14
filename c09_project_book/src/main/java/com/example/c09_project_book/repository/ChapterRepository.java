@@ -13,16 +13,18 @@ public class ChapterRepository implements IChapterRepository {
     @Override
     public ChapterDto findByIdBook(int id_book) throws SQLException {
         String sql= """
-                select b.name, c.chapter_unlock, c.point
+                select b.name,b.id, c.chapter_unlock, c.point
                 from chapter c
                 join book b on b.id=c.id_book
-                where b.id=3;
+                where b.id=?;
                 """;
         Connection connection=BaseConnection.getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
+        preparedStatement.setInt(1,id_book);
         ResultSet resultSet=preparedStatement.executeQuery();
         if (resultSet.next()){
             ChapterDto chapterDto=new ChapterDto();
+            chapterDto.setId_book(resultSet.getInt("id"));
             chapterDto.setName(resultSet.getString("name"));
             chapterDto.setChapter_unlock(resultSet.getInt("chapter_unlock"));
             chapterDto.setPoint(resultSet.getInt("point"));

@@ -39,12 +39,10 @@
                     aria-expanded="false"
             > Thể loại
             </button>
-            <a href="/clients?action=info" class="btn btn-outline-light me-2"> Tài khoản</a>
             <a href="/clients?action=multiSearch" class="btn btn-outline-light me-2">Tìm kiếm nâng cao </a>
         </div>
         <div>
             <button class="btn btn-outline-warning"> Mua BP</button>
-            <a href="/login" class="btn btn-outline-warning me-2"> Đăng nhập</a>
             <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
         </div>
 
@@ -89,9 +87,10 @@
                         </a>
                     </div>
                     <div class="carousel-item h-100">
-                        <img src="/css/images.jpg" class="d-block w-100 h-100" alt="..."
+                        <a href="/clients?action=book&id=4">
+                        <img src="/image/item3.jpg" class="d-block w-100 h-100" alt="..."
                              style="object-fit: cover;">
-
+                        </a>
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"

@@ -6,6 +6,7 @@ import com.example.c09_project_book.entity.AccountChapter;
 import com.example.c09_project_book.entity.Customer;
 import com.example.c09_project_book.entity.Order;
 import com.example.c09_project_book.service.*;
+import com.example.c09_project_book.utils.Library;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -68,14 +69,16 @@ public class ClientController extends HttpServlet {
         req.getRequestDispatcher("/views/client/multisearch.jsp").forward(req,resp);
     }
 
-    private void unlockChapter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void unlockChapter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         HttpSession session= req.getSession();
         int chapter= Integer.parseInt(req.getParameter("chapter"));
+        int cost= Integer.parseInt(req.getParameter("cost"))*-1;
         int openChapter= (int) session.getAttribute("openChapter");
         if (chapter==openChapter+1) {
             session.setAttribute("openChapter", openChapter + 1);
             session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
         }
+        Library.changePoint(Library.getAccountId(req),cost );
         req.getRequestDispatcher("/views/client/chapter.jsp").forward(req,resp);
     }
 
@@ -240,7 +243,13 @@ public class ClientController extends HttpServlet {
             case "processCheckout" -> processCheckout(req, resp);
             case "checkout" -> goCheckOut(req, resp);
             case"searchBook" -> searchBook(req,resp);
-            case "unlockChapter" -> unlockChapter(req,resp);
+            case "unlockChapter" -> {
+                try {
+                    unlockChapter(req,resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             default -> goHome(req, resp);
         }
     }

@@ -1,11 +1,19 @@
 package com.example.c09_project_book.utils;
 
-import com.example.c09_project_book.dto.UserInfoDto;
+
 import com.example.c09_project_book.entity.Account;
+import com.example.c09_project_book.entity.AccountChapter;
+import com.example.c09_project_book.repository.AccountChapterRepository;
+import com.example.c09_project_book.repository.IAccountChapterRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.SQLException;
+
+
 public class Library {
+    public static IAccountChapterRepository accountChapterRepository=new AccountChapterRepository();
+
     public static int getAccountId(HttpServletRequest req) throws IllegalStateException {
         HttpSession session = req.getSession(false);
         if (session == null) {
@@ -18,6 +26,18 @@ public class Library {
         }
 
         return account.getId();
+    }
+
+    public static void changePoint(int idAccount, int pointChange) throws SQLException {
+
+        AccountChapter accountChapter = accountChapterRepository.findByAccountId(idAccount);
+        if (accountChapter == null) {
+            throw new RuntimeException("Không tìm thấy account_chapter với id_account = " + idAccount);
+        }
+        int newPoint = accountChapter.getPoint() + pointChange;
+        accountChapter.setPoint(newPoint);
+        accountChapter.setId_account(idAccount);
+        accountChapterRepository.update(accountChapter);
     }
 
 }
