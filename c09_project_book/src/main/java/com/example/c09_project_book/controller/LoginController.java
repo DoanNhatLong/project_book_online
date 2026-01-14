@@ -29,6 +29,7 @@ public class LoginController extends HttpServlet {
         Account account;
         try {
             account = accountService.findAccount(username, password);
+            System.out.println(account);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

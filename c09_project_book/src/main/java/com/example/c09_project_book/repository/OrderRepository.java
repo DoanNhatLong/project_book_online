@@ -9,11 +9,12 @@ import java.sql.SQLException;
 public class OrderRepository implements IOrderRepository {
     @Override
     public void addOrder(Order order) throws SQLException {
-        String sql="insert into `order`(id_customer,total) values(?,?)";
+        String sql="insert into `order`(id_customer,total,time) values(?,?,?)";
         Connection connection=BaseConnection.getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
         preparedStatement.setInt(1, order.getId_customer());
         preparedStatement.setInt(2, order.getTotal());
+        preparedStatement.setDate(3,order.getTime());
         preparedStatement.executeUpdate();
     }
 }

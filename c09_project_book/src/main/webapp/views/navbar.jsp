@@ -132,13 +132,6 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="border rounded p-3 h-100">
-                            <h6 class="text-center">Chương đã mở</h6>
-                        </div>
-                    </div>
-
                     <div class="col-md-4">
                         <div class="border rounded p-3 h-100">
                             <h6 class="text-center">Sách đã mua</h6>

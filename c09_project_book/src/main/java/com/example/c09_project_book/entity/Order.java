@@ -17,6 +17,11 @@ public class Order {
         this.total = total;
     }
 
+    public Order(int id_customer, int total, Date time) {
+        this.id_customer = id_customer;
+        this.total = total;
+        this.time = time;
+    }
 
     public boolean isDeleted() {
         return isDeleted;
