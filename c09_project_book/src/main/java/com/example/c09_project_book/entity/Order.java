@@ -12,6 +12,12 @@ public class Order {
     public Order() {
     }
 
+    public Order(int id_customer, int total) {
+        this.id_customer = id_customer;
+        this.total = total;
+    }
+
+
     public boolean isDeleted() {
         return isDeleted;
     }

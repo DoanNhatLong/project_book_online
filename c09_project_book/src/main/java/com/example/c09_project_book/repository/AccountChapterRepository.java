@@ -26,4 +26,14 @@ public class AccountChapterRepository implements IAccountChapterRepository {
         }
         return null;
     }
+
+    @Override
+    public void update(AccountChapter accountChapter) throws SQLException {
+        String sql="update account_chapter set point=? where id_account=?";
+        Connection connection =BaseConnection.getConnection();
+        PreparedStatement preparedStatement=connection.prepareStatement(sql);
+        preparedStatement.setInt(1, accountChapter.getPoint());
+        preparedStatement.setInt(2, accountChapter.getId_account());
+        preparedStatement.executeUpdate();
+    }
 }
