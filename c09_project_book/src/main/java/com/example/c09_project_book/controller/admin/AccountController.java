@@ -34,6 +34,7 @@ public class AccountController extends HttpServlet {
     }
 
     private void search(HttpServletRequest req, HttpServletResponse resp) {
+
     }
 
     private void showList(HttpServletRequest req, HttpServletResponse resp) {
@@ -46,5 +47,32 @@ public class AccountController extends HttpServlet {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+            case "lock":
+                lock(req, resp);
+                break;
+            case "unlock":
+                unlock(req, resp);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void unlock(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        boolean isUnlock= accountService.updateStatusAccount(username,true);
+    }
+
+    private void lock(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
     }
 }

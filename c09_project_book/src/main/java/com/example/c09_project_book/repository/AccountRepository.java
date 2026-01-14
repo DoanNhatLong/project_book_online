@@ -11,6 +11,7 @@ import java.util.List;
 
 public class AccountRepository implements IAccountRepository {
     private final String SELECT_ALL = "select * from account where isdeleted =0;";
+    private final String UPDATE = "update account set(islocked =?) where isdeleted =0;";
     private final String SEARCH_NAME = "select s.*, c.name as class_name from students s join classes c on s.class_id=c.id where s.name like ?;";
     private final String INSERT_INTO = " insert into students(name,gender,score,class_id) values(?,?,?,?);";
 
@@ -47,11 +48,12 @@ public class AccountRepository implements IAccountRepository {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                Account account = new Account(id,name,role);
+                boolean isLocked = resultSet.getBoolean("islocked");
+                Account account = new Account(id,name,role,isLocked);
                 accountList.add(account);
             }
         } catch (SQLException e) {
-            System.out.println("lỗi do truỳ vấn dữ liệu");
+            System.out.println("Loi truy van du lieu");
         }
         return accountList;
     }
@@ -62,7 +64,17 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public List<Account> updateStatusAccount(String username) {
-        return List.of();
+    public boolean updateStatusAccount(String username,boolean status) {
+        try(Connection connection = BaseConnection.getConnection()) {
+            PreparedStatement preparedStatement= null;
+
+            preparedStatement = connection.prepareStatement(UPDATE);
+            preparedStatement.setBoolean(1,status);
+            int effectRow = preparedStatement.executeUpdate();
+            return effectRow==1;
+        } catch (SQLException e) {
+            System.out.println("Loi truy van du lieu");
+        }
+        return false;
     }
 }

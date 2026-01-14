@@ -12,6 +12,8 @@
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
 
     <style>
         body {
@@ -91,6 +93,7 @@
                             <th>Username</th>
                             <th>Role</th>
                             <th>Hành động</th>
+<%--                            <th>Hành động</th>--%>
                         </tr>
                         </thead>
                         <tbody>
@@ -99,6 +102,15 @@
                                  <td>${status.count}</td>
                                  <td>${account.username}</td>
                                  <td>${account.role}</td>
+                                 <td>
+                                     ${account.isLocked()}
+                                     <c:if test="${account.isLocked()}">
+                                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','lock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
+                                     </c:if>
+                                     <c:if test="${!account.isLocked()}">
+                                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','unlock')" class="btn btn btn-success btn-sm">Hoạt động</button>
+                                     </c:if>
+                                 </td>
                              </tr>
                          </c:forEach>
                         </tbody>
@@ -112,5 +124,37 @@
 
 </div>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="/admin/accounts" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Khoá tài khoản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="username" id="username">
+                <input type="hidden" name="action" id="action">
+                <span>Bạn có chắc chắn <span class="text-danger" id="action-display"></span> tài khoản </span><span class="text-danger" id="username-display"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary">Có</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script>
+    function updateAccount(username,action){
+        alert(username + action);
+        document.getElementById("username").value = username;
+        document.getElementById("username-display").innerHTML = username;
+        document.getElementById("action").value = action;
+        (action=="lock")? action="Khoá":action="Mở";
+        document.getElementById("action-display").innerHTML = action;
+    }
+</script>
 </body>
 </html>
