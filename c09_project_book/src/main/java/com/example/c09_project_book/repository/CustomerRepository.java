@@ -18,6 +18,7 @@ public class CustomerRepository implements ICustomerRepository {
             ResultSet resultSet=preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Customer customer=new Customer();
+                customer.setId(resultSet.getInt("id"));
                 customer.setName( resultSet.getString("name"));
                 customer.setPhone(resultSet.getString("phone"));
                 customer.setEmail(resultSet.getString("email"));

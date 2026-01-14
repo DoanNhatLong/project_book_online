@@ -2,8 +2,10 @@ package com.example.c09_project_book.service;
 
 import com.example.c09_project_book.entity.AccountChapter;
 
+import java.sql.SQLException;
+
 public interface IAccountChapterService {
     AccountChapter findByAccountId(int idAccount);
 
-    void update(AccountChapter accountChapter);
+    void update(AccountChapter accountChapter) throws SQLException;
 }

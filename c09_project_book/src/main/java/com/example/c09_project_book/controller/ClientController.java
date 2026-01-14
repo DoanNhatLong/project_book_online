@@ -4,10 +4,8 @@ import com.example.c09_project_book.dto.*;
 import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.AccountChapter;
 import com.example.c09_project_book.entity.Customer;
-import com.example.c09_project_book.repository.BookDetailDtoRepository;
-import com.example.c09_project_book.repository.IBookDetailDtoRepository;
+import com.example.c09_project_book.entity.Order;
 import com.example.c09_project_book.service.*;
-import com.example.c09_project_book.utils.Library;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +28,7 @@ public class ClientController extends HttpServlet {
     IBookDetailDtoService bookDetailDtoService = new BookDetailDtoService();
     ICustomerService customerService = new CustomerService();
     IAccountChapterService accountChapterService = new AccountChapterService();
+    IOrderService orderService=new OrderService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -198,7 +199,7 @@ public class ClientController extends HttpServlet {
         }
     }
 
-    private void processCheckout(HttpServletRequest req, HttpServletResponse resp) {
+    private void processCheckout(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         int total = Integer.parseInt(req.getParameter("total"));
         Account account = (Account) session.getAttribute("account");
@@ -213,13 +214,30 @@ public class ClientController extends HttpServlet {
         }
 
         int id_account = account.getId();
+        Customer customer = customerService.findByAccountId(id_account);
+
+        if (customer == null) {
+            session.setAttribute("message", "Vui lòng cập nhật thông tin khách hàng trước khi thanh toán");
+            resp.sendRedirect(req.getContextPath() + "/clients?action=info");
+            return;
+        }
+        int id_customer= customer.getId();
         AccountChapter accountChapter = accountChapterService.findByAccountId(id_account);
         int point_gain = (int) Math.ceil(total / 100.0);
         int new_point = accountChapter.getPoint() + point_gain;
+        accountChapter.setId_account(id_account);
         accountChapter.setPoint(new_point);
-//        💀
-        accountChapterService.update(accountChapter);
-
+        try {
+            accountChapterService.update(accountChapter);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        Order order=new Order(id_account,total);
+        try {
+            orderService.addOrder(order);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         UserInfoDto userInfo = (UserInfoDto) session.getAttribute("userInfo");
         if (userInfo == null) {
             userInfo = new UserInfoDto();
