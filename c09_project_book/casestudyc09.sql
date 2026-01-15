@@ -45,7 +45,6 @@ CREATE TABLE customer (
 
 -- =========================
 -- BOOK
--- =========================
 CREATE TABLE book (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -54,10 +53,13 @@ CREATE TABLE book (
     `desc` LONGTEXT,
     author VARCHAR(50),
     image_url text,
+    pdf_url text,
     id_category INT,
+    total_page INT,
     isdeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (id_category) REFERENCES category(id)
 ) ENGINE=InnoDB;
+
 
 -- =========================
 -- CHAPTER
