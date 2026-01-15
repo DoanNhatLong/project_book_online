@@ -1,5 +1,6 @@
 package com.example.c09_project_book.service;
 
+import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.Order;
 import com.example.c09_project_book.repository.IOrderRepository;
 import com.example.c09_project_book.repository.OrderRepository;
@@ -23,5 +24,20 @@ public class OrderService implements IOrderService {
     @Override
     public boolean deleteById(int id) {
         return orderRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean saveOrder(Order order) {
+        return orderRepository.saveOrder(order);
+    }
+
+    @Override
+    public boolean saveOrder(Order order, int idEdit) {
+        return orderRepository.saveOrder(order,idEdit);
+    }
+
+    @Override
+    public Order findById(int id) {
+        return orderRepository.findById(id);
     }
 }

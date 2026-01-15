@@ -48,6 +48,7 @@
             <div class="card shadow-sm mt-4">
                 <div class="card-body">
                     <h5 class="mb-3">Quản lý đơn hàng</h5>
+                    <a href="/admin/order?action=add" class="btn btn-sm btn-success">Thêm</a>
 
                     <table class="table table-hover">
                         <thead class="table-dark">
@@ -67,7 +68,7 @@
                                 <td>${order.total}</td>
                                 <td>${order.time}</td>
                                 <td>
-                                    <a href="/admin/order?action=add" class="btn btn-sm btn-success">Thêm</a>
+                                    <a href="/admin/order?action=edit&id=${order.id}" class="btn btn-sm btn-primary">Chỉnh sửa</a>
                                     <a href="/admin/order?action=delete&id=${order.id}" class="btn btn-sm btn-danger"  onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')">Xóa</a>
                                 </td>
                             </tr>

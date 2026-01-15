@@ -12,6 +12,13 @@ public class Order {
     public Order() {
     }
 
+    public Order(int id_customer, String status, int total, Date time) {
+        this.id_customer = id_customer;
+        this.status = status;
+        this.total = total;
+        this.time = time;
+    }
+
     public Order(int id_customer, int total) {
         this.id_customer = id_customer;
         this.total = total;

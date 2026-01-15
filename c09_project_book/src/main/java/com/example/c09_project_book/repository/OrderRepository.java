@@ -1,11 +1,10 @@
 package com.example.c09_project_book.repository;
 
+import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.Order;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.reflect.Type;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +47,62 @@ public class OrderRepository implements IOrderRepository {
         String sql = "update `order` set isdeleted=1 where id=?";
         Connection connection = BaseConnection.getConnection();
         try {
-            PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,id);
-            int row= preparedStatement.executeUpdate();
-            return row>0;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            int row = preparedStatement.executeUpdate();
+            return row > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean saveOrder(Order order) {
+        String sql = "insert into `order`(id_customer,total,time,status) values(?,?,?,?)";
+        Connection connection = BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, order.getId_customer());
+            preparedStatement.setInt(2, order.getTotal());
+            preparedStatement.setDate(3, order.getTime());
+            if (order.getStatus() == null) {
+                preparedStatement.setNull(4, Types.VARCHAR);
+            } else {
+                preparedStatement.setString(4, order.getStatus());
+            }
+            int rows = preparedStatement.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean saveOrder(Order order, int idEdit) {
+        String sql = "update `order` set id_customer=?,total=?,time=?,status=? where id=?";
+        Connection connection = BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, order.getId_customer());
+            preparedStatement.setInt(2, order.getTotal());
+            preparedStatement.setDate(3, order.getTime());
+            if (order.getStatus() == null) {
+                preparedStatement.setNull(4, Types.VARCHAR);
+            } else {
+                preparedStatement.setString(4, order.getStatus());
+            }
+            preparedStatement.setInt(5, idEdit);
+            int rows = preparedStatement.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Order findById(int id) {
+        return null;
+    }
+
+
 }
