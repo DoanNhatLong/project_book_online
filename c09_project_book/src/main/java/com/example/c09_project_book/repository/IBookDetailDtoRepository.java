@@ -14,4 +14,6 @@ public interface IBookDetailDtoRepository {
     boolean deleteById(int id);
     Book findById(int bookId);
     boolean addContent(int id,String pdfPath);
+    /* long code */
+    List<BookDetailDto> searchByMulti(String author, String bookName, Double price);
 }

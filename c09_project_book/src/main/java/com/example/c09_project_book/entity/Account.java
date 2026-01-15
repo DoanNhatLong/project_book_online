@@ -72,4 +72,5 @@ public class Account {
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
+
 }

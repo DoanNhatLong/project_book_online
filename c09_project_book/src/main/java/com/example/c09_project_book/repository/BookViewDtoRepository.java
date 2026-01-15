@@ -14,11 +14,10 @@ public class BookViewDtoRepository implements IBookViewDtoRepository {
     public List<BookViewDto> findByTag(int id_tag) {
         List<BookViewDto> bookList = new ArrayList<>();
         String sql = """
-                    SELECT b.*, a.name AS authorName
-                    FROM book b
-                    JOIN book_tag bt ON b.id = bt.id_book
-                    JOIN author a ON b.id_author = a.id
-                    WHERE b.isdeleted=0 and bt.id_tag = ?
+                    SELECT b.*
+                FROM book b
+                JOIN book_tag bt ON b.id = bt.id_book
+                WHERE b.isdeleted=0 and bt.id_tag = ?;
                 """;
         Connection connection = BaseConnection.getConnection();
         try {
@@ -30,7 +29,7 @@ public class BookViewDtoRepository implements IBookViewDtoRepository {
                 book.setId(resultSet.getInt("id"));
                 book.setName(resultSet.getString("name"));
                 book.setPrice(resultSet.getDouble("price"));
-                book.setAuthorName(resultSet.getString("authorName"));
+                book.setAuthorName(resultSet.getString("author"));
                 bookList.add(book);
             }
             return bookList;

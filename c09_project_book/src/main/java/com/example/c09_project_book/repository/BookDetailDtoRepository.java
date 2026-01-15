@@ -19,11 +19,11 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
     @Override
     public BookDetailDto findByID(int bookId) throws SQLException {
         String sql= """
-            select b.id,b.name,b.price,b.stock,b.desc,a.name as author, c.name as category
-            from book b
-            join author a on b.id_author=a.id
-            join category c on b.id_category=c.id
-            where b.isdeleted=0 and b.id=?
+            
+                select b.id,b.name,b.price,b.stock,b.desc,b.author, c.name as category
+                                          from book b
+                                          join category c on b.id_category=c.id
+                                          where b.isdeleted=0 and b.id=?;
             """;
         Connection connection= BaseConnection.getConnection();
         PreparedStatement preparedStatement=connection.prepareStatement(sql);
@@ -133,16 +133,53 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
 
     @Override
     public boolean addContent(int id, String pdfUrl) {
-        try(Connection connection = BaseConnection.getConnection()) {
-            PreparedStatement preparedStatement= null;
+        try (Connection connection = BaseConnection.getConnection()) {
+            PreparedStatement preparedStatement = null;
             preparedStatement = connection.prepareStatement(UPDATE_CONTENT);
-            preparedStatement.setString(1,pdfUrl);
-            preparedStatement.setDouble(2,id);
-            int effecRow=  preparedStatement.executeUpdate();
-            return effecRow==1;
+            preparedStatement.setString(1, pdfUrl);
+            preparedStatement.setDouble(2, id);
+            int effecRow = preparedStatement.executeUpdate();
+            return effecRow == 1;
         } catch (SQLException e) {
             System.out.println("Loi truy van du lieu");
         }
         return false;
+    }
+    public List<BookDetailDto> searchByMulti(String author, String bookName, Double price) {
+        String sql= """
+                SELECT *
+                FROM book
+                WHERE isdeleted=0
+                AND (? IS NULL OR author LIKE ?)
+                AND (? IS NULL OR name LIKE ?)
+                AND (? IS NULL OR price <= ?);
+                """;
+        List<BookDetailDto> list=new ArrayList<>();
+        Connection connection= BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1,author);
+            preparedStatement.setString(2,author==null?null:"%"+author+"%");
+            preparedStatement.setString(3,bookName);
+            preparedStatement.setString(4,bookName==null?null:"%"+bookName+"%");
+            if (price==null){
+                preparedStatement.setNull(5,java.sql.Types.DOUBLE);
+                preparedStatement.setNull(6,java.sql.Types.DOUBLE);
+            }else {
+                preparedStatement.setDouble(5,price);
+                preparedStatement.setDouble(6,price);
+            }
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()){
+                BookDetailDto book=new BookDetailDto();
+                book.setName(resultSet.getString("name"));
+                book.setPrice(resultSet.getDouble("price"));
+                book.setAuthor(resultSet.getString("author"));
+                list.add(book);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
     }
 }

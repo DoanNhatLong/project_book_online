@@ -6,7 +6,9 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/client/book.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/client/cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/client/checkout.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/client" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/client/multisearch.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/client" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/client/taglist.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/client" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views" />
       </map>
     </option>
   </component>

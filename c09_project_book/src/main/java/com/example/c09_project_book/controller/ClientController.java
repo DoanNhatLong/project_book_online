@@ -6,6 +6,7 @@ import com.example.c09_project_book.entity.AccountChapter;
 import com.example.c09_project_book.entity.Customer;
 import com.example.c09_project_book.entity.Order;
 import com.example.c09_project_book.service.*;
+import com.example.c09_project_book.utils.Library;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,11 +17,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @WebServlet(name = "ClientController", value = "/clients")
 public class ClientController extends HttpServlet {
@@ -29,6 +28,7 @@ public class ClientController extends HttpServlet {
     ICustomerService customerService = new CustomerService();
     IAccountChapterService accountChapterService = new AccountChapterService();
     IOrderService orderService=new OrderService();
+    IChapterDtoService chapterDtoService=new ChapterDtoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,7 +56,86 @@ public class ClientController extends HttpServlet {
             case "user" -> goUser(req, resp);
             case "checkout" -> goCheckOut(req, resp);
             case "info" -> goInfo(req, resp);
+            case "removeCart" -> removeCart(req,resp);
+            case "read"-> readBook(req,resp);
+            case "readChapter" -> readChapter(req,resp);
+            case "multiSearch" -> multiSearchBook(req,resp);
+            case "buyPoint" -> buyPoint(req,resp);
+            case "logout" -> {
+                HttpSession session= req.getSession();
+                session.invalidate();
+                resp.sendRedirect(req.getContextPath() + "/clients");
+            }
             default -> goHome(req, resp);
+        }
+    }
+
+    private void buyPoint(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session= req.getSession();
+        Account account= (Account) session.getAttribute("account");
+        if (account == null) {
+            session.setAttribute("message", "Vui lòng đăng nhập");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return;
+        }
+        int id_account= account.getId();
+        System.out.println(id_account);
+        resp.sendRedirect("/views/client/buypoint.jsp");
+    }
+
+    private void multiSearchBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<BookDetailDto> list= bookDetailDtoService.findAll();
+        req.setAttribute("list_book",list);
+        req.getRequestDispatcher("/views/client/multisearch.jsp").forward(req,resp);
+    }
+
+    private void unlockChapter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+        HttpSession session= req.getSession();
+        int chapter= Integer.parseInt(req.getParameter("chapter"));
+        int cost= Integer.parseInt(req.getParameter("cost"))*-1;
+        int openChapter= (int) session.getAttribute("openChapter");
+        if (chapter==openChapter+1) {
+            session.setAttribute("openChapter", openChapter + 1);
+            session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
+        }
+        Library.changePoint(Library.getAccountId(req),cost );
+        req.getRequestDispatcher("/views/client/chapter.jsp").forward(req,resp);
+    }
+
+    private void readChapter(HttpServletRequest req, HttpServletResponse resp) {
+        String bookName=req.getParameter("bookName");
+        int chapter= Integer.parseInt(req.getParameter("chapter"));
+
+    }
+
+    private void readBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id_book = Integer.parseInt(req.getParameter("id"));
+        HttpSession session = req.getSession();
+        Integer openChapter = (Integer) session.getAttribute("openChapter");
+        if (openChapter == null) {
+            session.setAttribute("openChapter", 1);
+        }
+        ChapterDto chapterDto;
+        try {
+            chapterDto = chapterDtoService.findByIdBook(id_book);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        session.setAttribute("chapter", chapterDto);
+        req.getRequestDispatcher("/views/client/chapter.jsp").forward(req,resp);
+    }
+
+    private void removeCart(HttpServletRequest req, HttpServletResponse resp) {
+        HttpSession session= req.getSession();
+        Map<Integer, CartItem> cart = (Map<Integer, CartItem>) session.getAttribute("cart");
+        if (cart!=null) {
+            int id_book = Integer.parseInt(req.getParameter("id"));
+            cart.remove(id_book);
+        }
+        try {
+            resp.sendRedirect("/views/client/cart.jsp");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -69,6 +148,7 @@ public class ClientController extends HttpServlet {
             return;
         }
         int id_account = account.getId();
+        System.out.println(id_account);
         Customer customer = customerService.findByAccountId(id_account);
         AccountChapter accountChapter = accountChapterService.findByAccountId(id_account);
         UserInfoDto userInfoDto = new UserInfoDto();
@@ -153,9 +233,7 @@ public class ClientController extends HttpServlet {
     }
 
     private void viewTagList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("View tag list");
         int id_tag = Integer.parseInt(req.getParameter("tag"));
-        System.out.println(id_tag);
         List<BookViewDto> list = bookViewDtoService.findByTag(id_tag);
         req.setAttribute("list_book", list);
         req.getRequestDispatcher("/views/client/taglist.jsp").forward(req, resp);
@@ -183,8 +261,61 @@ public class ClientController extends HttpServlet {
             case "processCheckout" -> processCheckout(req, resp);
             case "checkout" -> goCheckOut(req, resp);
             case"searchBook" -> searchBook(req,resp);
+            case "unlockChapter" -> {
+                try {
+                    unlockChapter(req,resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "gainpoint" -> {
+                try {
+                    gainPoint(req,resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "multiSearch" -> searchBookByMulti(req,resp);
             default -> goHome(req, resp);
         }
+    }
+
+    private void searchBookByMulti(HttpServletRequest req, HttpServletResponse resp) {
+        String author = req.getParameter("author") == null
+                ? null
+                : req.getParameter("author").trim();
+        String bookName = req.getParameter("bookName") == null
+                ? null
+                : req.getParameter("bookName").trim();
+        Double price = req.getParameter("price").isEmpty() ? null : Double.parseDouble(req.getParameter("price"));
+        System.out.println(author);
+        System.out.println(price);
+        System.out.println(bookName);
+        List<BookDetailDto> list = bookDetailDtoService.searchByMulti(author, bookName, price);
+        req.setAttribute("list_book", list);
+        try {
+            req.getRequestDispatcher("/views/client/multisearch.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void gainPoint(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+        HttpSession session= req.getSession();
+        Account account= (Account) session.getAttribute("account");
+        if (account == null) {
+            session.setAttribute("message", "Vui lòng đăng nhập");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return;
+        }
+        int id_account= account.getId();
+        int point= Integer.parseInt(req.getParameter("point"));
+        Library.changePoint(id_account,point);
+        if (point>0){
+            session.setAttribute("message", "Bạn đã nạp thành công "+point+" điểm!");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+        }
+        System.out.println(point);
+
     }
 
     private void searchBook(HttpServletRequest req, HttpServletResponse resp) {
@@ -227,12 +358,13 @@ public class ClientController extends HttpServlet {
         int new_point = accountChapter.getPoint() + point_gain;
         accountChapter.setId_account(id_account);
         accountChapter.setPoint(new_point);
+        Date time= (Date.valueOf(LocalDate.now()));
         try {
             accountChapterService.update(accountChapter);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        Order order=new Order(id_account,total);
+        Order order=new Order(id_account,total,time);
         try {
             orderService.addOrder(order);
         } catch (SQLException e) {
@@ -246,7 +378,7 @@ public class ClientController extends HttpServlet {
         userInfo.setPoint(new_point);
         session.setAttribute("userInfo", userInfo);
         session.setAttribute("message", "Bạn đã nhận được " + point_gain + " điểm thưởng!");
-        System.out.println(userInfo.getPoint());
+        session.setAttribute("cart", new HashMap<Integer, CartItem>());
         try {
             resp.sendRedirect(req.getContextPath() + "/clients");
         } catch (IOException e) {
