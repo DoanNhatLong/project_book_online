@@ -12,5 +12,6 @@ public interface IBookDetailDtoService {
     boolean add(Book book);
     boolean edit(int id,Book book);
     boolean deleteById(int id);
-
+    Book findById(int bookId);
+    boolean addContent(int id,String pdfPath);
 }

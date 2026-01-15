@@ -34,4 +34,14 @@ public class BookDetailDtoService implements  IBookDetailDtoService {
     public boolean deleteById(int id) {
         return bookDetailDtoRepository.deleteById(id);
     }
+
+    @Override
+    public Book findById(int bookId) {
+        return bookDetailDtoRepository.findById(bookId);
+    }
+
+    @Override
+    public boolean addContent(int id, String pdfUrl) {
+        return bookDetailDtoRepository.addContent(id,pdfUrl);
+    }
 }
