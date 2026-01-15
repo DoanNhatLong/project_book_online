@@ -75,7 +75,7 @@ public class ClientController extends HttpServlet {
         }
         int id_account= account.getId();
         System.out.println(id_account);
-
+        resp.sendRedirect("/views/client/buypoint.jsp");
     }
 
     private void multiSearchBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -261,8 +261,34 @@ public class ClientController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
             }
+            case "gainpoint" -> {
+                try {
+                    gainPoint(req,resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             default -> goHome(req, resp);
         }
+    }
+
+    private void gainPoint(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+        HttpSession session= req.getSession();
+        Account account= (Account) session.getAttribute("account");
+        if (account == null) {
+            session.setAttribute("message", "Vui lòng đăng nhập");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return;
+        }
+        int id_account= account.getId();
+        int point= Integer.parseInt(req.getParameter("point"));
+        Library.changePoint(id_account,point);
+        if (point>0){
+            session.setAttribute("message", "Bạn đã nạp thành công "+point+" điểm!");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+        }
+        System.out.println(point);
+
     }
 
     private void searchBook(HttpServletRequest req, HttpServletResponse resp) {

@@ -30,6 +30,14 @@ public class Library {
         return account.getId();
     }
 
+    public static int getPoint(int idAccount) {
+        AccountChapter accountChapter = accountChapterRepository.findByAccountId(idAccount);
+        if (accountChapter == null) {
+            throw new RuntimeException("Không tìm thấy account_chapter với id_account = " + idAccount);
+        }
+        return accountChapter.getPoint();
+    }
+
     public static void changePoint(int idAccount, int pointChange) throws SQLException {
 
         AccountChapter accountChapter = accountChapterRepository.findByAccountId(idAccount);

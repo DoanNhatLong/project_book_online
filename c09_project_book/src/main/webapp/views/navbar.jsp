@@ -33,7 +33,16 @@
                        style="width: 30rem;"
                        required>
                 <input type="hidden" name="action" value="searchBook">
-            </form>
+            </form >
+            <div class="ms-auto me-3 d-flex align-items-center">
+                <div class="px-3 py-1 rounded-pill bg-warning bg-opacity-25 d-flex align-items-center">
+                    <span class="me-1">💎</span>
+                    <span class="fw-semibold me-1">Point</span>
+                    <span class="fw-bold text-danger">
+                        ${sessionScope.pointOfAccount}
+                    </span>
+                </div>
+            </div>
 
             <div class="ms-auto d-flex align-items-center g-2">
                 <a href="/clients?action=cart"
@@ -63,10 +72,6 @@
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li class="dropdown-header">
-                            <p>User</p>
-                            <p>Số BP còn lại</p>
-                        </li>
                         <li><a href="/clients?action=info" class="dropdown-item">Chi tiết tài khoản</a></li>
                         <li><button class="dropdown-item">Mua BP</button></li>
                         <li><a href="/login" class="dropdown-item text-success">Đăng nhập</a></li>
