@@ -8,11 +8,12 @@ public class BookDetailDto {
     String desc;
     String author;
     String category;
+    String imageUrl;
 
     public BookDetailDto() {
     }
 
-    public BookDetailDto(int id, String name, double price, int stock, String desc, String author, String category) {
+    public BookDetailDto(int id, String name, double price, int stock, String desc, String author, String category,String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -20,6 +21,7 @@ public class BookDetailDto {
         this.desc = desc;
         this.author = author;
         this.category = category;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -77,5 +79,13 @@ public class BookDetailDto {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
