@@ -34,4 +34,9 @@ public class BookDetailDtoService implements  IBookDetailDtoService {
     public boolean deleteById(int id) {
         return bookDetailDtoRepository.deleteById(id);
     }
+
+    @Override
+    public List<BookDetailDto> searchByMulti(String author, String tag, Double price) {
+        return List.of();
+    }
 }

@@ -79,6 +79,8 @@ public class ClientController extends HttpServlet {
     }
 
     private void multiSearchBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<BookDetailDto> list= bookDetailDtoService.findAll();
+        req.setAttribute("list_book",list);
         req.getRequestDispatcher("/views/client/multisearch.jsp").forward(req,resp);
     }
 
@@ -268,10 +270,26 @@ public class ClientController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
             }
+            case "multiSearch" -> searchBookByMulti(req,resp);
             default -> goHome(req, resp);
         }
     }
 
+    private void searchBookByMulti(HttpServletRequest req, HttpServletResponse resp) {
+        String author = req.getParameter("author");
+        String bookName = req.getParameter("bookName");
+        Double price = req.getParameter("price").isEmpty() ? null : Double.parseDouble(req.getParameter("price"));
+        System.out.println(author);
+        System.out.println(price);
+        System.out.println(bookName);
+        List<BookDetailDto> list = bookDetailDtoService.searchByMulti(author, bookName, price);
+        req.setAttribute("list_book", list);
+        try {
+            req.getRequestDispatcher("/views/client/multisearch.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void gainPoint(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
         HttpSession session= req.getSession();
         Account account= (Account) session.getAttribute("account");
