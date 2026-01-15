@@ -36,6 +36,14 @@ public class BookDetailDtoService implements  IBookDetailDtoService {
     }
 
     @Override
+    public Book findById(int bookId) {
+        return bookDetailDtoRepository.findById(bookId);
+    }
+
+    @Override
+    public boolean addContent(int id, String pdfUrl) {
+        return bookDetailDtoRepository.addContent(id, pdfUrl);
+    }
     public List<BookDetailDto> searchByMulti(String author, String bookName, Double price) {
         return bookDetailDtoRepository.searchByMulti(author,bookName,price);
     }

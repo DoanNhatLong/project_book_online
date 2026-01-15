@@ -10,8 +10,10 @@ public class Book {
     private int id_category;
     boolean isDeleted=false;
     private String imageUrl;
+    private String pdfUrl;
     public Book() {
     }
+
 
     public boolean isDeleted() {
         return isDeleted;
@@ -38,6 +40,18 @@ public class Book {
         this.imageUrl = imageUrl;
         this.author = author;
         this.id_category = id_category;
+    }
+    public Book(int id, String name, double price, int stock, String desc, String author,
+                int categoryId, String imageUrl,String pdfUrl) {
+        this.id=id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.desc = desc;
+        this.imageUrl = imageUrl;
+        this.author = author;
+        this.id_category = categoryId;
+        this.pdfUrl=pdfUrl;
     }
 
     public int getId() {
@@ -102,5 +116,13 @@ public class Book {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getPdfUrl() {
+        return pdfUrl;
+    }
+
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
     }
 }

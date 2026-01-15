@@ -13,7 +13,9 @@ import java.util.List;
 
 public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
     private final String SELECT_ALL_BOOK ="select b.*,c.name as category_name from book b join category c on b.id_category =c.id where b.isdeleted =0;";
+    private final String FIND_BOOK_BY_ID ="select * from book where id =? and isdeleted =0;";
     private final String INSERT_INTO ="INSERT INTO `book` (`name`, `price`, `stock`, `desc`, `author`, `image_url`, `id_category`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private final String UPDATE_CONTENT ="update book set pdf_url =? where id =?;";
     @Override
     public BookDetailDto findByID(int bookId) throws SQLException {
         String sql= """
@@ -102,6 +104,47 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
     }
 
     @Override
+    public Book findById(int bookId) {
+
+        try(Connection connection = BaseConnection.getConnection()) {
+            PreparedStatement preparedStatement= null;
+
+            preparedStatement = connection.prepareStatement(FIND_BOOK_BY_ID);
+            preparedStatement.setInt(1,bookId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                int stock = resultSet.getInt("stock");
+                String desc = resultSet.getString("desc");
+                String author = resultSet.getString("author");
+                int categoryId = resultSet.getInt("id_category");
+                String imageUrl = resultSet.getString("image_url");
+                String pdfUrl = resultSet.getString("pdf_url");
+                return new Book(id,name,price,stock,desc,author,categoryId,imageUrl,pdfUrl);
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Loi truy van du lieu");
+        }
+        return null;
+    }
+
+    @Override
+    public boolean addContent(int id, String pdfUrl) {
+        try (Connection connection = BaseConnection.getConnection()) {
+            PreparedStatement preparedStatement = null;
+            preparedStatement = connection.prepareStatement(UPDATE_CONTENT);
+            preparedStatement.setString(1, pdfUrl);
+            preparedStatement.setDouble(2, id);
+            int effecRow = preparedStatement.executeUpdate();
+            return effecRow == 1;
+        } catch (SQLException e) {
+            System.out.println("Loi truy van du lieu");
+        }
+        return false;
+    }
     public List<BookDetailDto> searchByMulti(String author, String bookName, Double price) {
         String sql= """
                 SELECT *

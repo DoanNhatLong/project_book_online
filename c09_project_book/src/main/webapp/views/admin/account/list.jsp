@@ -41,34 +41,47 @@
                             <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>
                         </c:if>
                     </div>
-                    <table class="table table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-sm align-middle mb-0">
+                        <thead class="table-dark small">
                         <tr>
-                            <th>#</th>
+                            <th style="width:40px">#</th>
                             <th>Username</th>
-                            <th>Role</th>
-                            <th>Hành động</th>
-<%--                            <th>Hành động</th>--%>
+                            <th style="width:100px">Role</th>
+                            <th style="width:120px">Hành động</th>
                         </tr>
                         </thead>
-                        <tbody>
-                         <c:forEach items="${accountList}" var="book" varStatus="status">
-                                 <tr>
-                                     <td>${status.count}</td>
-                                     <td>${book.username}</td>
-                                     <td>${book.role}</td>
-                                     <td>
-                                         <c:if test="${book.isLocked()}">
-                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${book.username}','unlock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
-                                         </c:if>
-                                         <c:if test="${!book.isLocked()}">
-                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${book.username}','lock')" class="btn btn btn-success btn-sm">Hoạt động</button>
-                                         </c:if>
-                                     </td>
-                                 </tr>
-                         </c:forEach>
+                        <tbody class="small">
+                        <c:forEach items="${accountList}" var="book" varStatus="status">
+                            <tr>
+                                <td>${status.count}</td>
+                                <td>${book.username}</td>
+                                <td>
+                                    <span class="badge bg-secondary">${book.role}</span>
+                                </td>
+                                <td>
+                                    <c:if test="${book.isLocked()}">
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                onclick="updateAccount('${book.username}','unlock')"
+                                                class="btn btn-danger btn-sm px-2 py-0">
+                                            Khoá
+                                        </button>
+                                    </c:if>
+
+                                    <c:if test="${!book.isLocked()}">
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                onclick="updateAccount('${book.username}','lock')"
+                                                class="btn btn-success btn-sm px-2 py-0">
+                                            Hoạt động
+                                        </button>
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
+
 
                 </div>
             </div>

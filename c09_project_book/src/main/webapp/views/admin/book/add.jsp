@@ -32,28 +32,72 @@
             <div class="card shadow-sm mt-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h5 class="mb-3">Thêm mới sách</h5>
-<%--                        <c:if test="${param.mess == 'true'}">--%>
-<%--                            <div class="alert alert-success text-danger py-0">Cập nhật trạng thái thành công</div>--%>
-<%--                        </c:if>--%>
-<%--                        <c:if test="${param.mess == 'false'}">--%>
-<%--                            <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>--%>
-<%--                        </c:if>--%>
+                        <h5 class="mb-4">➕ Thêm sách mới</h5>
+                        <c:if test="${param.mess == 'true'}">
+                            <div class="alert alert-success text-danger py-0">Cập nhật trạng thái thành công</div>
+                        </c:if>
+                        <c:if test="${param.mess == 'false'}">
+                            <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>
+                        </c:if>
                     </div>
-                    <form action="/admin/book?action=add" method="post" enctype="multipart/form-data">
-                       Name: <input type="text" name="name" required />
-                       Price: <input type="text" name="price" required />
-                       Stock: <input type="number" name="stock" value="1" required />
-                        Desc:  <textarea name="desc" required ></textarea>
-                       Categoryr: <select name="category-id">
-                            <option>---Chọn thể loại---</option>
-                            <option value="1">Tiểu thuyết</option>
-                            <option value="2">Trinh Thám</option>
-                        </select>
-                       Author: <input type="text" name="author"/>
-                       Image <input type="file" name="image-url" required />
-                        <button type="submit">Upload</button>
+                    <form action="/admin/book?action=add"
+                          method="post"
+                          enctype="multipart/form-data"
+                          class="card shadow-sm p-3">
+                        <!-- Row 1 -->
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label class="form-label small">Tên sách</label>
+                                <input type="text" name="name" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small">Tác giả</label>
+                                <input type="text" name="author" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small">Thể loại</label>
+                                <select name="category-id" class="form-select form-select-sm" required>
+                                    <option value="">--- Chọn ---</option>
+                                    <c:forEach items="${categoryList}" var="category">
+                                        <option value="${category.id}">${category.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="row g-2 mt-2">
+                            <div class="col-md-4">
+                                <label class="form-label small">Giá</label>
+                                <input type="text" name="price" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small">Số lượng</label>
+                                <input type="number" name="stock" class="form-control form-control-sm" value="1" min="1" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small">Ảnh bìa</label>
+                                <input type="file" name="image-url" class="form-control form-control-sm" accept="image/*" required>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mt-2">
+                            <label class="form-label small">Mô tả</label>
+                            <textarea name="desc"
+                                      class="form-control form-control-sm"
+                                      rows="2"
+                                      required></textarea>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end gap-2 mt-3">
+                            <a href="/admin/book" class="btn btn-secondary btn-sm">Huỷ</a>
+                            <button type="submit" class="btn btn-primary btn-sm">Lưu</button>
+                        </div>
+
                     </form>
+
 
                 </div>
             </div>
@@ -62,15 +106,6 @@
     </div>
 
 </div>
-<script>
-    function updateAccount(username,action){
-        document.getElementById("username").value = username;
-        document.getElementById("username-display").innerHTML = username;
-        document.getElementById("action").value = action;
-        (action=="lock")? action="Khoá":action="Mở";
-        document.getElementById("action-display").innerHTML = action;
-    }
-</script>
 <c:import url="../library-js.jsp"/>
 </body>
 </html>

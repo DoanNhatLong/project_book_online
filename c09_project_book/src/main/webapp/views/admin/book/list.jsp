@@ -17,69 +17,79 @@
     <c:import url="../sidebar.jsp"/>
 
     <!-- Main content -->
-    <div class="flex-grow-1">
-        <!-- Header -->
+    <div class="flex-grow-1 d-flex flex-column main-content">
+
+    <!-- Header -->
         <c:import url="../header.jsp"/>
 
         <!-- Content -->
-        <div class="container-fluid p-4">
+        <div class="container-fluid p-4 admin-content table-wrapper">
+
 
             <!-- Statistic -->
             <c:import url="../statistic.jsp"/>
-
             <!-- Table -->
-            <div class="card shadow-sm mt-4">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="mb-3">Quản lý sách</h5>
-                        <c:if test="${param.mess == 'true'}">
-                            <div class="alert alert-success text-danger py-0">Cập nhật trạng thái thành công</div>
-                        </c:if>
-                        <c:if test="${param.mess == 'false'}">
-                            <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>
-                        </c:if>
-                        <a href="/admin/book?action=add" class="btn btn-sm btn-success" >Thêm mới sách</a>
-                    </div>
-                    <table class="table table-hover">
-                        <thead class="table-dark">
+            <div class="card shadow-sm mt-3 admin-table-card table-container">
+                <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Quản lý sách</h6>
+                    <a href="/admin/book?action=add" class="btn btn-sm btn-success">
+                        Thêm mới sách
+                    </a>
+                </div>
+                <!-- TABLE SCROLL -->
+                <div class="table-admin">
+                    <table class="table table-hover table-sm align-middle mb-0">
+                        <thead class="table-dark small sticky-top">
                         <tr>
                             <th>#</th>
-                            <th>Hìn ảnh</th>
+                            <th>Ảnh</th>
                             <th>Tên sách</th>
-                            <th>Giá (VNĐ)</th>
-                            <th>Số lượng</th>
+                            <th class="text-end">Giá</th>
+                            <th class="text-end">SL</th>
                             <th>Thể loại</th>
                             <th>Tác giả</th>
                             <th>Hành động</th>
+                            <th>Hành động</th>
                         </tr>
                         </thead>
-                        <tbody>
+
+                        <tbody class="small">
                         <c:forEach items="${bookList}" var="book" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
                                 <td>
-                                    <img width="30" src="${book.imageUrl}">
+                                    <img src="${book.imageUrl}"
+                                         class="rounded"
+                                         style="width:28px;height:22px;object-fit:cover;">
                                 </td>
                                 <td>${book.name}</td>
-
                                 <td class="text-end">
-                                    <fmt:formatNumber value="${book.price}" type="number" groupingUsed="true"
+                                    <fmt:formatNumber value="${book.price}"
+                                                      type="number"
+                                                      groupingUsed="true"
                                                       maxFractionDigits="0"/>
                                 </td>
-
                                 <td class="text-end">${book.stock}</td>
-
                                 <td>${book.category}</td>
                                 <td>${book.author}</td>
-                                <td></td>
+                                <td>
+                                    <button data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"
+                                            onclick="showDataToModal('${book.id}')"
+                                            class="btn btn-success btn-sm px-2 py-0">
+                                        Thêm nội dung
+                                    </button>
+                                </td>
+                                <td>
+                                    <a href="/admin/book?action=read-book&id=${book.id}">Đọc sách</a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
-
                     </table>
-
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -89,20 +99,21 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="/admin/books" method="post">
+        <form action="/admin/book?action=add-content"
+              method="post"
+              enctype="multipart/form-data" >
+
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title">Khoá tài khoản</h6>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="username" id="username">
-                    <input type="hidden" name="action" id="action">
-                    <span>Bạn có chắc chắn <span class="text-danger" id="action-display"></span> tài khoản </span><span
-                        class="text-danger" id="username-display"></span>
+                    <input name="id" id="id">
+                    <input type="file" name="pdf-url" id="pdf-url">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Không</button>
-                    <button type="submit" class="btn btn-danger btn-sm">Có</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Thêm nội dung</button>
                 </div>
             </div>
         </form>
@@ -111,13 +122,8 @@
 <%--Bootstrap 5.2--%>
 
 <script>
-    function updateAccount(username, action) {
-        alert(username + action);
-        document.getElementById("username").value = username;
-        document.getElementById("username-display").innerHTML = username;
-        document.getElementById("action").value = action;
-        (action == "lock") ? action = "Khoá" : action = "Mở";
-        document.getElementById("action-display").innerHTML = action;
+    function showDataToModal(id) {
+        document.getElementById("id").value = id;
     }
 </script>
 <c:import url="../library-js.jsp"/>
