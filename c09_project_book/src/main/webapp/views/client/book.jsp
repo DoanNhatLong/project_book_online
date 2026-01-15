@@ -18,7 +18,7 @@
     <div class="card mb-5 shadow-sm">
         <div class="row g-0">
             <div class="col-md-4 d-flex justify-content-center align-items-center p-3">
-                <img src="/css/images.jpg" class="img-fluid rounded" alt="${book.name}" style="max-height: 300px;">
+                <img src="${book.imageUrl}" class="img-fluid rounded" alt="${book.name}" style="max-height: 300px;">
             </div>
             <div class="col-md-8">
                 <div class="card-body">

@@ -256,4 +256,79 @@ insert into chapter(id_book,chapter_unlock, point) values
 insert into account_chapter (id_account,id_chapter,point)
 values
 (2,2,0),(3,1,1000),(4,3,50);
+UPDATE book
+SET image_url = CASE id
+    WHEN 1 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489088/img_2_c9y5dd.png'
+    WHEN 2 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489814/2_ruths8.jpg'
+    WHEN 3 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489813/3_h2bfkh.jpg'
+    WHEN 4 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768490284/a6QT2NMnOuMgfgEssZIrW1jboqnygyncoB2rJV0b_jecdhl.png'
+    WHEN 5 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489813/5_ovhg60.jpg'
+    WHEN 6 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489815/6_xvj1ts.jpg'
+    WHEN 7 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489814/7_m4gfpr.jpg'
+    WHEN 8 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489813/8_zuzqlv.jpg'
+    WHEN 9 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489814/9_xhug7e.jpg'
+    WHEN 10 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489814/10_yp9cte.jpg'
+    WHEN 11 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489814/11_j291lf.jpg'
+    WHEN 12 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489815/12_bwubsc.jpg'
+END
+WHERE id IN (1,2,3,4,5,6,7,8,9,10,11,12);
+
+insert into `order` (id_customer, total, time)
+values 
+(2,100000,'2026-01-02'),
+(3,120000,'2026-01-12'),
+(1,130000,'2026-01-15'),
+(4,140000,'2025-01-01'),
+(3,150000,'2025-11-01'),
+(2,160000,'2025-12-01'),
+(3,110000,'2025-03-01'),
+(1,220000,'2025-06-01'),
+(2,130000,'2026-01-01'),
+(2,140000,'2026-01-03'),
+(4,80000,'2026-01-04');
+
+INSERT INTO `order_item` (id_order, id_book, quantity, price) VALUES
+
+-- Order 2 (1 item)
+(2, 3, 20, 100000),
+
+-- Order 3 (3 items)
+(3, 1, 1, 30000),
+(3, 4, 4, 40000),
+(3, 6, 1, 50000),
+
+-- Order 4 (2 items)
+(4, 2, 1, 60000),
+(4, 5, 1, 70000),
+
+-- Order 5 (4 items)
+(5, 1, 1, 30000),
+(5, 2, 1, 30000),
+(5, 3, 5, 40000),
+(5, 7, 1, 40000),
+
+-- Order 6 (1 item)
+(6, 6, 1, 150000),
+
+-- Order 7 (3 items)
+(7, 2, 2, 40000),
+(7, 4, 10, 30000),
+(7, 5, 1, 50000),
+
+-- Order 8 (2 items)
+(8, 1, 1, 50000),
+(8, 7, 1, 60000),
+
+-- Order 9 (4 items)
+(9, 3, 2, 60000),
+(9, 4, 1, 40000),
+(9, 6, 2, 60000),
+
+-- Order 10 (1 item)
+(10, 2, 1, 130000),
+
+-- Order 11 (3 items)
+(11, 1, 3, 40000),
+(11, 5, 1, 50000),
+(11, 6, 1, 50000);
 

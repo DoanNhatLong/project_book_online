@@ -41,10 +41,9 @@ public class BookViewDtoRepository implements IBookViewDtoRepository {
     @Override
     public List<BookViewDto> searchByKeyword(String keyword) {
         List<BookViewDto> list= new ArrayList<>();
-        String sql = "select b.*, a.name as authorName " +
-                "from book b " +
-                "join author a on b.id_author = a.id " +
-                "where b.isdeleted=0 and b.name like ? ";
+        String sql = """
+select * from book where isdeleted=0 and name like ?
+""";
         Connection connection = BaseConnection.getConnection();
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
@@ -55,7 +54,7 @@ public class BookViewDtoRepository implements IBookViewDtoRepository {
                 book.setId(resultSet.getInt("id"));
                 book.setName(resultSet.getString("name"));
                 book.setPrice(resultSet.getDouble("price"));
-                book.setAuthorName(resultSet.getString("authorName"));
+                book.setAuthorName(resultSet.getString("author"));
                 list.add(book);
             }
             return list;

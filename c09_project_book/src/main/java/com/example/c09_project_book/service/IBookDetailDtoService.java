@@ -14,6 +14,10 @@ public interface IBookDetailDtoService {
     boolean deleteById(int id);
     Book findById(int bookId);
     boolean addContent(int id,String pdfPath);
-/* long code */
+    /* long code */
     List<BookDetailDto> searchByMulti(String author, String bookName, Double price);
+    /* long code */
+    boolean updateStock(int id, int quantity);
+    /* long code */
+    Book findBookById(int idBook);
 }

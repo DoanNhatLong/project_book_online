@@ -1,6 +1,7 @@
 package com.example.c09_project_book.controller.admin;
 
-import com.example.c09_project_book.entity.Account;
+import com.example.c09_project_book.dto.BillDto;
+import com.example.c09_project_book.entity.Book;
 import com.example.c09_project_book.entity.Order;
 import com.example.c09_project_book.service.*;
 import jakarta.servlet.ServletException;
@@ -12,12 +13,13 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/admin/order")
 public class OrderController extends HttpServlet {
     IOrderService orderService = new OrderService();
+    IBillDtoService billDtoService = new BillDtoService();
+    IBookDetailDtoService bookDetailDtoService=new BookDetailDtoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,9 +40,12 @@ public class OrderController extends HttpServlet {
                 // trả về trang thêm mới
                 search(req, resp);
                 break;
-                /*long*/
+            /*long*/
             case "delete":
                 deleteById(req, resp);
+                break;
+            case "approve":
+                approve(req, resp);
                 break;
             default:
                 showList(req, resp);
@@ -57,7 +62,7 @@ public class OrderController extends HttpServlet {
     }
 
     private void showFormEdit(HttpServletRequest req, HttpServletResponse resp) {
-        int idEdit= Integer.parseInt(req.getParameter("id"));
+        int idEdit = Integer.parseInt(req.getParameter("id"));
         try {
             req.setAttribute("idEdit", idEdit);
             req.getRequestDispatcher("/views/admin/order/edit.jsp").forward(req, resp);
@@ -100,6 +105,10 @@ public class OrderController extends HttpServlet {
                 // trả về trang thêm mới
                 search(req, resp);
                 break;
+            case "confirmApprove":
+                confirmApprove(req, resp);
+                break;
+
             default:
                 showList(req, resp);
                 break;
@@ -107,13 +116,57 @@ public class OrderController extends HttpServlet {
 
     }
 
+    private void confirmApprove(HttpServletRequest req, HttpServletResponse resp) {
+        HttpSession session= req.getSession();
+        List<BillDto> billDto= (List<BillDto>) session.getAttribute("billDto");
+        int idOrder= (int) session.getAttribute("idOrder");
+        boolean success = true;
+        for (BillDto bill: billDto){
+            Book book= bookDetailDtoService.findBookById(bill.getIdBook());
+            int quantity= bill.getQuantity();
+            boolean flag= bookDetailDtoService.updateStock(book.getId(),quantity);
+            if (!flag) {
+                success =false;
+                break;
+            }
+
+        }
+        if (success) {
+            session.setAttribute("message", "Điều chỉnh số lượng thành công");
+            orderService.deleteById(idOrder);
+
+        } else {
+            session.setAttribute("message", "Điều chỉnh số lượng thất bại");
+        }
+        try {
+            resp.sendRedirect(req.getContextPath() + "/admin/order");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void approve(HttpServletRequest req, HttpServletResponse resp) {
+        int idOrder = Integer.parseInt(req.getParameter("idOrder"));
+//        int idCustomer = Integer.parseInt(req.getParameter("idCustomer"));
+//        System.out.println("idOrder: " + idOrder + " idCustomer: " + idCustomer);
+        List<BillDto> billDto = billDtoService.approve(idOrder);
+        HttpSession session= req.getSession();
+        session.setAttribute("billDto", billDto);
+        session.setAttribute("idOrder", idOrder);
+        try {
+            resp.sendRedirect(req.getContextPath() + "/views/admin/order/approve.jsp");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void editOrder(HttpServletRequest req, HttpServletResponse resp) {
-        int idEdit= Integer.parseInt(req.getParameter("idEdit"));
+        int idEdit = Integer.parseInt(req.getParameter("idEdit"));
         System.out.println(idEdit);
         getInfoFromForm(req);
         Order order = getInfoFromForm(req);
-        boolean isAdd= orderService.saveOrder(order, idEdit);
-        HttpSession session= req.getSession();
+        boolean isAdd = orderService.saveOrder(order, idEdit);
+        HttpSession session = req.getSession();
         if (isAdd) {
             session.setAttribute("message", "Chỉnh sửa thành công");
         } else {
@@ -127,7 +180,7 @@ public class OrderController extends HttpServlet {
     }
 
     private Order getInfoFromForm(HttpServletRequest req) {
-        Order order=new Order();
+        Order order = new Order();
         order.setId_customer(Integer.parseInt(req.getParameter("id_customer")));
         order.setTotal(Integer.parseInt(req.getParameter("total")));
         order.setTime(Date.valueOf(req.getParameter("time")));
@@ -137,9 +190,9 @@ public class OrderController extends HttpServlet {
 
 
     private void deleteById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id= Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
         System.out.println(id);
-        boolean isDelete= orderService.deleteById(id);
+        boolean isDelete = orderService.deleteById(id);
         HttpSession session = req.getSession();
         if (isDelete) {
             session.setAttribute("message", "Xóa đơn hàng thành công");
@@ -152,8 +205,8 @@ public class OrderController extends HttpServlet {
     private void save(HttpServletRequest req, HttpServletResponse resp) {
         System.out.println("Add order");
         Order order = getInfoFromForm(req);
-        boolean isAdd= orderService.saveOrder(order);
-        HttpSession session= req.getSession();
+        boolean isAdd = orderService.saveOrder(order);
+        HttpSession session = req.getSession();
         if (isAdd) {
             session.setAttribute("message", "Tạo đơn hàng thành công");
         } else {

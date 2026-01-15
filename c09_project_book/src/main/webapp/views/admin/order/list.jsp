@@ -10,11 +10,41 @@
     <c:import url="../library-css.jsp"/>
     <c:import url="../admin-css.jsp"/>
 
+    <style>
+        body {
+            overflow: auto;
+        }
+
+        .container-fluid {
+            padding: 1rem !important;
+        }
+
+        .card {
+            margin-bottom: 1rem;
+        }
+
+        .table {
+            font-size: 0.85rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.35rem 0.5rem;
+            vertical-align: middle;
+        }
+
+        .btn-sm {
+            padding: 0.15rem 0.4rem;
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
+
 <body>
+
 <c:if test="${sessionScope.message != null}">
     <div class="toast-container position-fixed top-0 end-0 p-3">
-        <div class="toast show" role="alert">
+        <div class="toast show">
             <div class="toast-header">
                 <strong class="me-auto text-primary">Thông báo</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
@@ -29,29 +59,25 @@
 
 <div class="d-flex">
 
-    <!-- Sidebar -->
     <c:import url="../sidebar.jsp"/>
 
-    <!-- Main content -->
-    <div class="flex-grow-1">
+    <div class="flex-grow-1 d-flex flex-column">
 
-        <!-- Header -->
         <c:import url="../header.jsp"/>
 
-        <!-- Content -->
-        <div class="container-fluid p-4">
+        <div class="container-fluid">
 
-            <!-- Statistic -->
             <c:import url="../statistic.jsp"/>
 
-            <!-- Table -->
-            <div class="card shadow-sm mt-4">
-                <div class="card-body">
-                    <h5 class="mb-3">Quản lý đơn hàng</h5>
-                    <a href="/admin/order?action=add" class="btn btn-sm btn-success">Thêm</a>
+            <div class="card shadow-sm mt-3">
+                <div class="card-body p-2">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Quản lý đơn hàng</h6>
+                        <a href="/admin/order?action=add" class="btn btn-sm btn-success">Thêm</a>
+                    </div>
 
-                    <table class="table table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-sm align-middle mb-0">
+                        <thead class="table-dark small">
                         <tr>
                             <th>#</th>
                             <th>ID khách hàng</th>
@@ -60,7 +86,7 @@
                             <th>Hành động</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="small">
                         <c:forEach items="${orderList}" var="order" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
@@ -68,12 +94,18 @@
                                 <td>${order.total}</td>
                                 <td>${order.time}</td>
                                 <td>
-                                    <a href="/admin/order?action=edit&id=${order.id}" class="btn btn-sm btn-primary">Chỉnh sửa</a>
-                                    <a href="/admin/order?action=delete&id=${order.id}" class="btn btn-sm btn-danger"  onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')">Xóa</a>
+                                    <a href="/admin/order?action=edit&id=${order.id}"
+                                       class="btn btn-sm btn-primary">Sửa</a>
+                                    <a href="/admin/order?action=delete&id=${order.id}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')">Xóa</a>
+                                    <a href="/admin/order?action=approve&idOrder=${order.id}"
+                                       class="btn btn-sm btn-danger"
+                                       >Duyệt đơn</a>
                                 </td>
                             </tr>
                         </c:forEach>
-
+                        </tbody>
                     </table>
 
                 </div>
@@ -83,6 +115,7 @@
     </div>
 
 </div>
+
 <c:import url="../library-js.jsp"/>
 </body>
 </html>

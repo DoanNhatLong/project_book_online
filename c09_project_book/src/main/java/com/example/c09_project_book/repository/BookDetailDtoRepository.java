@@ -1,7 +1,6 @@
 package com.example.c09_project_book.repository;
 
 import com.example.c09_project_book.dto.BookDetailDto;
-import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.Book;
 
 import java.sql.Connection;
@@ -20,7 +19,7 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
     public BookDetailDto findByID(int bookId) throws SQLException {
         String sql= """
             
-                select b.id,b.name,b.price,b.stock,b.desc,b.author, c.name as category
+                select b.id,b.name,b.price,b.stock,b.desc,b.author,b.image_url, c.name as category
                                           from book b
                                           join category c on b.id_category=c.id
                                           where b.isdeleted=0 and b.id=?;
@@ -38,6 +37,7 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
             book.setDesc(resultSet.getString("desc"));
             book.setAuthor(resultSet.getString("author"));
             book.setCategory(resultSet.getString("category"));
+            book.setImageUrl(resultSet.getString("image_url"));
             return book;
         }
         return null;
@@ -181,5 +181,55 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    @Override
+    public boolean updateStock(int id, int quantity) {
+        String sql= """
+                update book
+                set stock= stock - ?
+                where id=? and stock >= ?;
+                """;
+        Connection connection=BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,quantity);
+            preparedStatement.setInt(2,id);
+            preparedStatement.setInt(3,quantity);
+            int effectRow= preparedStatement.executeUpdate();
+            return effectRow>0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Book findBookById(int idBook) {
+        String sql= """
+                select *
+                from book
+                where id=? and isdeleted=0;
+                """;
+        Connection connection= BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement= connection.prepareStatement(sql);
+            preparedStatement.setInt(1,idBook);
+            ResultSet resultSet= preparedStatement.executeQuery();
+            if (resultSet.next()){
+                int id= resultSet.getInt("id");
+                String name= resultSet.getString("name");
+                double price= resultSet.getDouble("price");
+                int stock= resultSet.getInt("stock");
+                String desc= resultSet.getString("desc");
+                String author= resultSet.getString("author");
+                int categoryId= resultSet.getInt("id_category");
+                String imageUrl= resultSet.getString("image_url");
+                String pdfUrl= resultSet.getString("pdf_url");
+                return new Book(id,name,price,stock,desc,author,categoryId,imageUrl,pdfUrl);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }
