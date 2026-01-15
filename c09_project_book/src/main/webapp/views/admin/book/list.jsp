@@ -38,11 +38,13 @@
                         <c:if test="${param.mess == 'false'}">
                             <div class="alert alert-danger text-danger py-0">Cập nhật thất bại</div>
                         </c:if>
+                        <a href="/admin/book?action=add" class="btn btn-sm btn-success" >Thêm mới sách</a>
                     </div>
                     <table class="table table-hover">
                         <thead class="table-dark">
                         <tr>
                             <th>#</th>
+                            <th>Hìn ảnh</th>
                             <th>Tên sách</th>
                             <th>Giá (VNĐ)</th>
                             <th>Số lượng</th>
@@ -52,20 +54,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${bookList}" var="account" varStatus="status">
+                        <c:forEach items="${bookList}" var="book" varStatus="status">
                             <tr>
                                 <td>${status.count}</td>
-                                <td>${account.name}</td>
+                                <td>
+                                    <img width="30" src="${book.imageUrl}">
+                                </td>
+                                <td>${book.name}</td>
 
                                 <td class="text-end">
-                                    <fmt:formatNumber value="${account.price}" type="number" groupingUsed="true"
+                                    <fmt:formatNumber value="${book.price}" type="number" groupingUsed="true"
                                                       maxFractionDigits="0"/>
                                 </td>
 
-                                <td class="text-end">${account.stock}</td>
+                                <td class="text-end">${book.stock}</td>
 
-                                <td>${account.category}</td>
-                                <td>${account.author}</td>
+                                <td>${book.category}</td>
+                                <td>${book.author}</td>
                                 <td></td>
                             </tr>
                         </c:forEach>

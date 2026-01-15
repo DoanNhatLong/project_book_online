@@ -1,21 +1,27 @@
 package com.example.c09_project_book.controller.admin;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.c09_project_book.dto.BookDetailDto;
-import com.example.c09_project_book.entity.Account;
-import com.example.c09_project_book.service.AccountService;
+import com.example.c09_project_book.entity.Book;
 import com.example.c09_project_book.service.BookDetailDtoService;
-import com.example.c09_project_book.service.IAccountService;
 import com.example.c09_project_book.service.IBookDetailDtoService;
+import com.example.c09_project_book.utils.CloudinaryUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet(name = "BookController",value = "/admin/book")
+@WebServlet(name = "BookController", value = "/admin/book")
+@MultipartConfig
 public class BookController extends HttpServlet {
     private IBookDetailDtoService bookDetailDtoService = new BookDetailDtoService();
 
@@ -26,15 +32,19 @@ public class BookController extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "search":
+            case "add":
                 // trả về trang thêm mới
-                search(req, resp);
+                showFormAdd(req, resp);
                 break;
             default:
                 showList(req, resp);
                 break;
         }
 
+    }
+
+    private void showFormAdd(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+       request.getRequestDispatcher("/views/admin/book/add.jsp").forward(request,response);
     }
 
     private void search(HttpServletRequest req, HttpServletResponse resp) {
@@ -60,22 +70,45 @@ public class BookController extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "lock":
-                lock(req, resp);
+            case "add":
+                save(req, resp);
                 break;
-            case "unlock":
-                unlock(req, resp);
+            case "delete":
+                delete(req, resp);
                 break;
             default:
                 break;
         }
     }
 
-    private void unlock(HttpServletRequest req, HttpServletResponse resp) {
+    private void delete(HttpServletRequest req, HttpServletResponse resp) {
 
     }
 
-    private void lock(HttpServletRequest req, HttpServletResponse resp) {
+    private void save(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Part filePart = req.getPart("image-url");
 
+        byte[] fileBytes = filePart.getInputStream().readAllBytes();
+
+        Cloudinary cloudinary = CloudinaryUtil.getCloudinary();
+
+        Map uploadResult = cloudinary.uploader().upload(
+                fileBytes,
+                ObjectUtils.asMap(
+                        "folder", "book-manager/book"
+                )
+        );
+        // đường dẫn từ cloudary
+        String imageUrl = uploadResult.get("secure_url").toString();
+
+        String name = req.getParameter("name");
+        double price = Double.parseDouble(req.getParameter("price"));
+        int stock = Integer.parseInt(req.getParameter("stock"));
+        int categoryId = Integer.parseInt(req.getParameter("category-id"));
+        String author = req.getParameter("author");
+        String desc = req.getParameter("desc");
+        Book book = new Book(name,price,stock,desc,imageUrl,author,categoryId);
+        boolean isSuccess = bookDetailDtoService.add(book);
+        resp.sendRedirect("/admin/book");
     }
 }

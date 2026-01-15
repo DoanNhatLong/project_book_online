@@ -6,9 +6,10 @@ public class Book {
     private double price;
     private int stock;
     private String desc;
-    private int id_author;
+    private String author;
     private int id_category;
     boolean isDeleted=false;
+    private String imageUrl;
     public Book() {
     }
 
@@ -28,14 +29,14 @@ public class Book {
         this.desc = desc;
     }
 
-    public Book(int id, String name, double price, int stock,
-                String desc, int id_author, int id_category) {
-        this.id = id;
+    public Book( String name, double price, int stock,
+                String desc,String imageUrl, String author, int id_category) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.desc = desc;
-        this.id_author = id_author;
+        this.imageUrl = imageUrl;
+        this.author = author;
         this.id_category = id_category;
     }
 
@@ -79,12 +80,12 @@ public class Book {
         this.desc = desc;
     }
 
-    public int getId_author() {
-        return id_author;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setId_author(int id_author) {
-        this.id_author = id_author;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public int getId_category() {
@@ -93,5 +94,13 @@ public class Book {
 
     public void setId_category(int id_category) {
         this.id_category = id_category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

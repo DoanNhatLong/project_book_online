@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
-    private final String SELECT_ALL_BOOK ="select b.*,c.name as category_name, a.name as author_name from book b join category c on b.id_category =c.id join author a on b.id_author=a.id where b.isdeleted =0;";
+    private final String SELECT_ALL_BOOK ="select b.*,c.name as category_name from book b join category c on b.id_category =c.id where b.isdeleted =0;";
+    private final String INSERT_INTO ="INSERT INTO `book` (`name`, `price`, `stock`, `desc`, `author`, `image_url`, `id_category`) VALUES (?, ?, ?, ?, ?, ?, ?);";
     @Override
     public BookDetailDto findByID(int bookId) throws SQLException {
         String sql= """
@@ -57,8 +58,9 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
                 int stock = resultSet.getInt("stock");
                 String desc = resultSet.getString("desc");
                 String category= resultSet.getString("category_name");
-                String author= resultSet.getString("author_name");
-                BookDetailDto bookDetailDto = new BookDetailDto(id,name,price,stock,desc,author,category);
+                String author= resultSet.getString("author");
+                String imageUrl= resultSet.getString("image_url");
+                BookDetailDto bookDetailDto = new BookDetailDto(id,name,price,stock,desc,author,category,imageUrl);
                 bookDetailDtoList.add(bookDetailDto);
             }
         } catch (SQLException e) {
@@ -70,6 +72,22 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
 
     @Override
     public boolean add(Book book) {
+        try(Connection connection = BaseConnection.getConnection()) {
+            PreparedStatement preparedStatement= null;
+//            (`name`, `price`, `stock`, `desc`, `author`, `image_url`, `id_category`)
+            preparedStatement = connection.prepareStatement(INSERT_INTO);
+            preparedStatement.setString(1,book.getName());
+            preparedStatement.setDouble(2,book.getPrice());
+            preparedStatement.setInt(3,book.getStock());
+            preparedStatement.setString(4,book.getDesc());
+            preparedStatement.setString(5,book.getAuthor());
+            preparedStatement.setString(6,book.getImageUrl());
+            preparedStatement.setInt(7,book.getId_category());
+            int effecRow=  preparedStatement.executeUpdate();
+            return effecRow==1;
+        } catch (SQLException e) {
+            System.out.println("Loi truy van du lieu");
+        }
         return false;
     }
 
