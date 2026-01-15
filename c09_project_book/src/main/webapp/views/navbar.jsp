@@ -12,6 +12,11 @@
     <title>Title</title>
     <c:import url="/views/library.jsp"/>
 </head>
+<style>
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+</style>
 <body>
 <main>
     <nav class="navbar navbar-light bg-light fixed-top ">
@@ -28,44 +33,18 @@
                        style="width: 30rem;"
                        required>
                 <input type="hidden" name="action" value="searchBook">
-            </form>
+            </form >
+            <div class="ms-auto me-3 d-flex align-items-center">
+                <div class="px-3 py-1 rounded-pill bg-warning bg-opacity-25 d-flex align-items-center">
+                    <span class="me-1">💎</span>
+                    <span class="fw-semibold me-1">Point</span>
+                    <span class="fw-bold text-danger">
+                        ${sessionScope.pointOfAccount}
+                    </span>
+                </div>
+            </div>
 
             <div class="ms-auto d-flex align-items-center g-2">
-
-                <button class="btn p-0 border-0 bg-transparent me-3 position-relative"
-                        type="button"
-                        id="menuButton2"
-                        title="Tài khoản"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style="font-size: 1.6rem">
-                    👤
-                </button>
-                <div class="dropdown-menu">
-                    <div class="dropdown-header">
-                        <p> User</p>
-                        <p> Số BP còn lại </p>
-                    </div>
-                    <a href="/clients?action=info" class="btn dropdown-item">Chi tiết tài khoản</a>
-                    <button class="dropdown-item">Mua BP</button>
-                    <a href="/login" class=" btn dropdown-item text-success"> Đăng nhập </a>
-                    <a href="/login" class=" btn dropdown-item text-danger"> Đăng xuất</a>
-                </div>
-                <button class="btn p-0 border-0 bg-transparent me-3"
-                        type="button"
-                        id="MenuButton1"
-                        title="Thông báo"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style="font-size: 1.6rem">
-                    🔔
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header"> Thông báo</li>
-                    <li><a class="dropdown-item" href="#">Bạn có đơn hàng mới</a></li>
-                    <li><a class="dropdown-item" href="#">Khuyến mãi hôm nay</a></li>
-                    <li><a class="dropdown-item text-center" href="#">Xem tất cả</a></li>
-                </ul>
                 <a href="/clients?action=cart"
                    class="btn p-0 border-0 bg-transparent me-3 position-relative"
                    style="font-size: 1.6rem;"
@@ -82,6 +61,23 @@
                 >
                     📖
                 </button>
+                <div class="dropdown me-3">
+                    <button class="btn p-0 border-0 bg-transparent dropdown-toggle"
+                            type="button"
+                            id="menuButton2"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            style="font-size: 1.6rem">
+                        👤
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a href="/clients?action=info" class="dropdown-item">Chi tiết tài khoản</a></li>
+                        <li><button class="dropdown-item">Mua BP</button></li>
+                        <li><a href="/login" class="dropdown-item text-success">Đăng nhập</a></li>
+                        <li><a href="/login" class="dropdown-item text-danger">Đăng xuất</a></li>
+                    </ul>
+                </div>
 
             </div>
 
@@ -132,20 +128,13 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="border rounded p-3 h-100">
-                            <h6 class="text-center">Chương đã mở</h6>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="border rounded p-3 h-100">
                             <h6 class="text-center">Sách đã mua</h6>
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="border rounded p-3 h-100">
                             <h6 class="text-center">Lịch sử mua BP</h6>
                         </div>
@@ -159,5 +148,9 @@
         </div>
     </div>
 </div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

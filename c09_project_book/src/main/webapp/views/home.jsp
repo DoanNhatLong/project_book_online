@@ -39,12 +39,11 @@
                     aria-expanded="false"
             > Thể loại
             </button>
-            <a href="/clients?action=info" class="btn btn-outline-light me-2"> Tài khoản</a>
-            <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
+            <a href="/clients?action=multiSearch" class="btn btn-outline-light me-2">Tìm kiếm nâng cao </a>
         </div>
         <div>
-            <a href="/login" class="btn btn-outline-warning me-2"> Đăng nhập</a>
-            <button class="btn btn-outline-warning"> Mua BP</button>
+            <a href="/clients?action=buyPoint" class="btn btn-outline-warning"> Mua Point</a>
+            <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
         </div>
 
     </div>
@@ -88,9 +87,10 @@
                         </a>
                     </div>
                     <div class="carousel-item h-100">
-                        <img src="/css/images.jpg" class="d-block w-100 h-100" alt="..."
+                        <a href="/clients?action=book&id=4">
+                        <img src="/image/item3.jpg" class="d-block w-100 h-100" alt="..."
                              style="object-fit: cover;">
-
+                        </a>
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
@@ -187,6 +187,40 @@
     </div>
 </div>
 
+
+<footer>
+    <footer class="bg-light text-success mt-5">
+        <div class="container py-4">
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-uppercase">BookStore</h5>
+                    <p class="small text-muted">
+                        Nền tảng mua và đọc sách trực tuyến.
+                        Khám phá tri thức, lưu giữ đam mê đọc sách mỗi ngày.
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-uppercase">Liên kết</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/clients" class="text-decoration-none text-primary">Trang chủ</a></li>
+                        <li><a href="/clients?action=cart" class="text-decoration-none text-primary">Giỏ hàng</a></li>
+                        <li><a href="/clients?action=info" class="text-decoration-none text-primary">Tài khoản</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-uppercase">Liên hệ</h6>
+                    <p class="small mb-1">Email: support@bookstore.com</p>
+                    <p class="small mb-1">Hotline: 0123 456 789</p>
+                    <p class="small">© 2026 BookStore</p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+</footer>
 
 
 

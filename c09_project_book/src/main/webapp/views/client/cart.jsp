@@ -59,7 +59,11 @@
                                     </td>
                                     <td>${item.book.price}</td>
                                     <td>${lineTotal}</td>
-                                    <td> Xóa
+                                    <td>
+                                        <a href="/clients?action=removeCart&id=${item.book.id}"
+                                           class="btn btn-danger btn-sm">
+                                            Xóa
+                                        </a>
                                     </td>
                                 </tr>
                                 <input type="hidden" name="price_${item.book.id}" value="${item.book.price}"/>
