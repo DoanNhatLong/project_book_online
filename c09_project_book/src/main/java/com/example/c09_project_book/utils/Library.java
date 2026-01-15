@@ -6,8 +6,10 @@ import com.example.c09_project_book.entity.AccountChapter;
 import com.example.c09_project_book.repository.AccountChapterRepository;
 import com.example.c09_project_book.repository.IAccountChapterRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 
@@ -38,6 +40,27 @@ public class Library {
         accountChapter.setPoint(newPoint);
         accountChapter.setId_account(idAccount);
         accountChapterRepository.update(accountChapter);
+    }
+
+    public static Integer requireLogin(HttpServletRequest req,
+                                       HttpServletResponse resp) throws IOException {
+
+        HttpSession session = req.getSession(false);
+
+        if (session == null) {
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return null;
+        }
+
+        Account account = (Account) session.getAttribute("account");
+
+        if (account == null) {
+            session.setAttribute("message", "Vui lòng đăng nhập");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return null;
+        }
+
+        return account.getId();
     }
 
 }

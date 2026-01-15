@@ -42,7 +42,7 @@
             <a href="/clients?action=multiSearch" class="btn btn-outline-light me-2">Tìm kiếm nâng cao </a>
         </div>
         <div>
-            <button class="btn btn-outline-warning"> Mua BP</button>
+            <a href="/clients?action=buyPoint" class="btn btn-outline-warning"> Mua Point</a>
             <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
         </div>
 

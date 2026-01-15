@@ -246,7 +246,12 @@ VALUES
     (3, 'Tran Thi B', '0901000002', 'b@example.com', '456 Đường B, Quận 2'),
     (4, 'Le Van C', '0901000003', 'c@example.com', '789 Đường C, Quận 3'),
     (5, 'Pham Thi D', '0901000004', 'd@example.com', '101 Đường D, Quận 4');
+    
 
-insert into chapter(id_book,chapter_unlock) values
-(1,3);
+
+insert into chapter(id_book,chapter_unlock, point) values
+(1,5,10),(4,10,15),(3,7,20);
+insert into account_chapter (id_account,id_chapter,point)
+values
+(2,2,0),(3,1,1000),(4,3,50);
 

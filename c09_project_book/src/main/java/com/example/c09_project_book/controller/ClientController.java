@@ -60,9 +60,22 @@ public class ClientController extends HttpServlet {
             case "read"-> readBook(req,resp);
             case "readChapter" -> readChapter(req,resp);
             case "multiSearch" -> multiSearchBook(req,resp);
-
+            case "buyPoint" -> buyPoint(req,resp);
             default -> goHome(req, resp);
         }
+    }
+
+    private void buyPoint(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session= req.getSession();
+        Account account= (Account) session.getAttribute("account");
+        if (account == null) {
+            session.setAttribute("message", "Vui lòng đăng nhập");
+            resp.sendRedirect(req.getContextPath() + "/clients");
+            return;
+        }
+        int id_account= account.getId();
+        System.out.println(id_account);
+
     }
 
     private void multiSearchBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -213,9 +226,7 @@ public class ClientController extends HttpServlet {
     }
 
     private void viewTagList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("View tag list");
         int id_tag = Integer.parseInt(req.getParameter("tag"));
-        System.out.println(id_tag);
         List<BookViewDto> list = bookViewDtoService.findByTag(id_tag);
         req.setAttribute("list_book", list);
         req.getRequestDispatcher("/views/client/taglist.jsp").forward(req, resp);
