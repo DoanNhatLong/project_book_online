@@ -61,6 +61,11 @@ public class ClientController extends HttpServlet {
             case "readChapter" -> readChapter(req,resp);
             case "multiSearch" -> multiSearchBook(req,resp);
             case "buyPoint" -> buyPoint(req,resp);
+            case "logout" -> {
+                HttpSession session= req.getSession();
+                session.invalidate();
+                resp.sendRedirect(req.getContextPath() + "/clients");
+            }
             default -> goHome(req, resp);
         }
     }

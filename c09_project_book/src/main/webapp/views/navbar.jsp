@@ -73,7 +73,6 @@
 
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a href="/clients?action=info" class="dropdown-item">Chi tiết tài khoản</a></li>
-                        <li><button class="dropdown-item">Mua BP</button></li>
                         <li><a href="/login" class="dropdown-item text-success">Đăng nhập</a></li>
                         <li><a href="/login" class="dropdown-item text-danger">Đăng xuất</a></li>
                     </ul>

@@ -43,7 +43,7 @@
         </div>
         <div>
             <a href="/clients?action=buyPoint" class="btn btn-outline-warning"> Mua Point</a>
-            <a href="/login" class="btn btn-outline-danger">Đăng xuất </a>
+            <a href="/clients?action=logout" class="btn btn-outline-danger">Đăng xuất</a>
         </div>
 
     </div>
