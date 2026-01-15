@@ -12,4 +12,7 @@ public interface IBookDetailDtoRepository {
     boolean add(Book book);
     boolean edit(int id,Book book);
     boolean deleteById(int id);
+
+    /* long code */
+    List<BookDetailDto> searchByMulti(String author, String bookName, Double price);
 }
