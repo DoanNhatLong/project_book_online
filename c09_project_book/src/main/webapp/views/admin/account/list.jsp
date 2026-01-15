@@ -33,6 +33,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h5 class="mb-3">Quản lý tài khoản người dùng</h5>
+
                         <c:if test="${param.mess == 'true'}">
                             <div class="alert alert-success text-danger py-0">Cập nhật trạng thái thành công</div>
                         </c:if>
@@ -51,17 +52,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                         <c:forEach items="${accountList}" var="account" varStatus="status">
+                         <c:forEach items="${accountList}" var="book" varStatus="status">
                                  <tr>
                                      <td>${status.count}</td>
-                                     <td>${account.username}</td>
-                                     <td>${account.role}</td>
+                                     <td>${book.username}</td>
+                                     <td>${book.role}</td>
                                      <td>
-                                         <c:if test="${account.isLocked()}">
-                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','unlock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
+                                         <c:if test="${book.isLocked()}">
+                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${book.username}','unlock')" class="btn btn btn-danger btn-sm">Đã khoá</button>
                                          </c:if>
-                                         <c:if test="${!account.isLocked()}">
-                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${account.username}','lock')" class="btn btn btn-success btn-sm">Hoạt động</button>
+                                         <c:if test="${!book.isLocked()}">
+                                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="updateAccount('${book.username}','lock')" class="btn btn btn-success btn-sm">Hoạt động</button>
                                          </c:if>
                                      </td>
                                  </tr>
@@ -80,7 +81,7 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="/admin/accounts" method="post">
+        <form action="/admin/account" method="post">
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title">Khoá tài khoản</h6>
@@ -100,7 +101,6 @@
 </div>
 <script>
     function updateAccount(username,action){
-        alert(username + action);
         document.getElementById("username").value = username;
         document.getElementById("username-display").innerHTML = username;
         document.getElementById("action").value = action;
