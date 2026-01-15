@@ -36,7 +36,7 @@ public class BookDetailDtoService implements  IBookDetailDtoService {
     }
 
     @Override
-    public List<BookDetailDto> searchByMulti(String author, String tag, Double price) {
-        return List.of();
+    public List<BookDetailDto> searchByMulti(String author, String bookName, Double price) {
+        return bookDetailDtoRepository.searchByMulti(author,bookName,price);
     }
 }

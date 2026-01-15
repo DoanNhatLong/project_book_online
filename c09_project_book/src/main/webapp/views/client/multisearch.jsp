@@ -30,6 +30,14 @@
                     </div>
 
                     <div class="col-md-4">
+                        <input type="text"
+                               name="category"
+                               class="form-control"
+                               placeholder="Tên sách"
+                               value="${bookName}">
+                    </div>
+
+                    <div class="col-md-4">
                         <input type="number"
                                name="price"
                                class="form-control"
@@ -37,13 +45,7 @@
                                value="${price}">
                     </div>
 
-                    <div class="col-md-4">
-                        <input type="text"
-                               name="category"
-                               class="form-control"
-                               placeholder="Tên sách"
-                               value="${bookName}">
-                    </div>
+
                 </div>
 
                 <div class="text-end mt-3">
@@ -55,7 +57,7 @@
         </div>
     </div>
 
-    <c:set var="pageSize" value="5"/>
+    <c:set var="pageSize" value="10"/>
     <c:set var="currentPage" value="${empty param.page ? 1 : param.page}"/>
     <c:set var="start" value="${(currentPage - 1) * pageSize}"/>
     <c:set var="end" value="${start + pageSize - 1}"/>

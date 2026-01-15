@@ -100,4 +100,43 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
     public boolean deleteById(int id) {
         return false;
     }
+
+    @Override
+    public List<BookDetailDto> searchByMulti(String author, String bookName, Double price) {
+        String sql= """
+                SELECT *
+                FROM book
+                WHERE isdeleted=0
+                AND (? IS NULL OR author LIKE ?)
+                AND (? IS NULL OR name LIKE ?)
+                AND (? IS NULL OR price <= ?);
+                """;
+        List<BookDetailDto> list=new ArrayList<>();
+        Connection connection= BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement .setString(1,author);
+            preparedStatement .setString(2,author==null?null:"%"+author+"%");
+            preparedStatement .setString(3,bookName);
+            preparedStatement .setString(4,bookName==null?null:"%"+bookName+"%");
+            if (price==null){
+                preparedStatement .setNull(5,java.sql.Types.DOUBLE);
+                preparedStatement .setNull(6,java.sql.Types.DOUBLE);
+            }else {
+                preparedStatement .setDouble(5,price);
+                preparedStatement .setDouble(6,price);
+            }
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()){
+                BookDetailDto book=new BookDetailDto();
+                book.setName(resultSet.getString("name"));
+                book.setPrice(resultSet.getDouble("price"));
+                book.setAuthor(resultSet.getString("author"));
+                list.add(book);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
 }

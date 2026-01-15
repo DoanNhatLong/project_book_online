@@ -276,8 +276,12 @@ public class ClientController extends HttpServlet {
     }
 
     private void searchBookByMulti(HttpServletRequest req, HttpServletResponse resp) {
-        String author = req.getParameter("author");
-        String bookName = req.getParameter("bookName");
+        String author = req.getParameter("author") == null
+                ? null
+                : req.getParameter("author").trim();
+        String bookName = req.getParameter("bookName") == null
+                ? null
+                : req.getParameter("bookName").trim();
         Double price = req.getParameter("price").isEmpty() ? null : Double.parseDouble(req.getParameter("price"));
         System.out.println(author);
         System.out.println(price);
