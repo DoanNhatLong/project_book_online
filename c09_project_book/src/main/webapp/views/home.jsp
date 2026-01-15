@@ -129,13 +129,12 @@
 <div class="container mt-4" style="overflow: visible; position: relative; z-index: 1;">
 
     <div class="d-flex overflow-auto gap-3 py-2" style="white-space: nowrap;margin-top: 9rem" >
-        <c:forEach var="i" begin="1" end="7">
-            <a href="/clients?action=book&id=${i}" class="d-block flex-shrink-0" style="width: 10rem; ">
+        <c:forEach var="book" items="${sessionScope.initBookList}" begin="1" end="7">
+            <a href="/clients?action=book&id=${book.id}" class="d-block flex-shrink-0" style="width: 10rem; ">
                 <img src="/css/images.jpg"
                      class="img-fluid rounded"
-                     alt="Sách ${i}"
                      style="height: 12rem; object-fit: cover;">
-                <p class="text-center mt-1">Tên sách ${i}</p>
+                <p class="text-center mt-1">${book.name}</p>
             </a>
         </c:forEach>
     </div>

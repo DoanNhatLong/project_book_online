@@ -115,16 +115,16 @@ public class BookDetailDtoRepository implements  IBookDetailDtoRepository {
         Connection connection= BaseConnection.getConnection();
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            preparedStatement .setString(1,author);
-            preparedStatement .setString(2,author==null?null:"%"+author+"%");
-            preparedStatement .setString(3,bookName);
-            preparedStatement .setString(4,bookName==null?null:"%"+bookName+"%");
+            preparedStatement.setString(1,author);
+            preparedStatement.setString(2,author==null?null:"%"+author+"%");
+            preparedStatement.setString(3,bookName);
+            preparedStatement.setString(4,bookName==null?null:"%"+bookName+"%");
             if (price==null){
-                preparedStatement .setNull(5,java.sql.Types.DOUBLE);
-                preparedStatement .setNull(6,java.sql.Types.DOUBLE);
+                preparedStatement.setNull(5,java.sql.Types.DOUBLE);
+                preparedStatement.setNull(6,java.sql.Types.DOUBLE);
             }else {
-                preparedStatement .setDouble(5,price);
-                preparedStatement .setDouble(6,price);
+                preparedStatement.setDouble(5,price);
+                preparedStatement.setDouble(6,price);
             }
             ResultSet resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
