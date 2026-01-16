@@ -90,16 +90,51 @@ public class ClientController extends HttpServlet {
     }
 
     private void unlockChapter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        HttpSession session= req.getSession();
-        int chapter= Integer.parseInt(req.getParameter("chapter"));
-        int cost= Integer.parseInt(req.getParameter("cost"))*-1;
-        int openChapter= (int) session.getAttribute("openChapter");
-        if (chapter==openChapter+1) {
-            session.setAttribute("openChapter", openChapter + 1);
-            session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
+        HttpSession session = req.getSession();
+
+        int chapter = Integer.parseInt(req.getParameter("chapter"));
+        int cost = Integer.parseInt(req.getParameter("cost")) * -1;
+
+        Integer openChapter = (Integer) session.getAttribute("openChapter");
+        if (openChapter == null) openChapter = 0;
+
+        // chỉ cho mở chương kế tiếp
+        if (chapter != openChapter + 1) {
+            session.setAttribute("message", "Chương không hợp lệ");
+            resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
+            return;
         }
-        Library.changePoint(Library.getAccountId(req),cost );
-        req.getRequestDispatcher("/views/client/chapter.jsp").forward(req,resp);
+
+        // 1️⃣ trừ point trước
+        boolean success = Library.changePoint(Library.getAccountId(req), cost);
+
+        if (!success) {
+            // 2️⃣ nếu trừ thất bại → KHÔNG mở chương
+            session.setAttribute("message", "Không đủ point để mở chương");
+            resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
+            return;
+        }
+
+        // 3️⃣ trừ thành công → mở chương
+        session.setAttribute("openChapter", openChapter + 1);
+        session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
+
+        Library.updatePointForUsed(session, cost);
+
+        resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
+
+//        HttpSession session= req.getSession();
+//        int chapter= Integer.parseInt(req.getParameter("chapter"));
+//        int cost= Integer.parseInt(req.getParameter("cost"))*-1;
+//        int openChapter= (int) session.getAttribute("openChapter");
+//        if (chapter==openChapter+1) {
+//            session.setAttribute("openChapter", openChapter + 1);
+//            session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
+//        }
+//        Library.changePoint(Library.getAccountId(req),cost);
+//        Library.updatePointForUsed(session,cost);
+//        resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
+//        req.getRequestDispatcher("/views/client/chapter.jsp").forward(req,resp);
     }
 
     private void readChapter(HttpServletRequest req, HttpServletResponse resp) {
@@ -310,6 +345,7 @@ public class ClientController extends HttpServlet {
         int id_account= account.getId();
         int point= Integer.parseInt(req.getParameter("point"));
         Library.changePoint(id_account,point);
+        Library.updatePointForUsed(session,point);
         if (point>0){
             session.setAttribute("message", "Bạn đã nạp thành công "+point+" điểm!");
             resp.sendRedirect(req.getContextPath() + "/clients");

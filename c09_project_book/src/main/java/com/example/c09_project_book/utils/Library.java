@@ -4,17 +4,20 @@ package com.example.c09_project_book.utils;
 import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.AccountChapter;
 import com.example.c09_project_book.repository.AccountChapterRepository;
+import com.example.c09_project_book.repository.BaseConnection;
 import com.example.c09_project_book.repository.IAccountChapterRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
 public class Library {
-    public static IAccountChapterRepository accountChapterRepository=new AccountChapterRepository();
+    public static IAccountChapterRepository accountChapterRepository = new AccountChapterRepository();
 
     public static int getAccountId(HttpServletRequest req) throws IllegalStateException {
         HttpSession session = req.getSession(false);
@@ -38,16 +41,22 @@ public class Library {
         return accountChapter.getPoint();
     }
 
-    public static void changePoint(int idAccount, int pointChange) throws SQLException {
+    public static boolean changePoint(int accountId, int deltaPoint) throws SQLException {
+        String sql =
+                "UPDATE account_chapter " +
+                        "SET point = point + ? " +
+                        "WHERE id_account = ? AND point + ? >= 0";
 
-        AccountChapter accountChapter = accountChapterRepository.findByAccountId(idAccount);
-        if (accountChapter == null) {
-            throw new RuntimeException("Không tìm thấy account_chapter với id_account = " + idAccount);
+        try (Connection conn = BaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, deltaPoint);
+            ps.setInt(2, accountId);
+            ps.setInt(3, deltaPoint);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
         }
-        int newPoint = accountChapter.getPoint() + pointChange;
-        accountChapter.setPoint(newPoint);
-        accountChapter.setId_account(idAccount);
-        accountChapterRepository.update(accountChapter);
     }
 
     public static Integer requireLogin(HttpServletRequest req,
@@ -69,6 +78,17 @@ public class Library {
         }
 
         return account.getId();
+    }
+
+    public static void updatePointForUsed(HttpSession session, int deltaPoint) {
+        Integer current = (Integer) session.getAttribute("pointOfAccount");
+        if (current == null) current = 0;
+
+        int newPoint = current + deltaPoint;
+
+        if (newPoint < 0) newPoint = 0;
+
+        session.setAttribute("pointOfAccount", newPoint);
     }
 
 }

@@ -20,9 +20,13 @@ WHERE isdeleted=0
   AND (? IS NULL OR category LIKE ?)
   AND (? IS NULL OR price <= ?);
   select * from book where isdeleted=0 and name like 1;
-  select c.id, c.name, c.phone,c.address,b.id as id_book, b.name as name_book, oi.quantity
+  select c.id as id_customer, c.name, c.phone,c.address,b.id as id_book, b.name as name_book, oi.quantity
   from customer c
   join `order` o on c.id=o.id_customer
   join order_item oi on oi.id_order=o.id
    join book b on b.id=oi.id_book
-  where o.isdeleted=0 ;
+  where o.isdeleted=0  and o.id=5;
+  select b.name as book_name, o.time as buy_time 
+  from book b 
+  join order_item oi on b.id=oi.id_book
+  join `order` on 

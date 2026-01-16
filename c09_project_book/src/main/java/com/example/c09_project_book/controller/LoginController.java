@@ -1,10 +1,8 @@
 package com.example.c09_project_book.controller;
 
+import com.example.c09_project_book.dto.HistoryBuyDto;
 import com.example.c09_project_book.entity.Account;
-import com.example.c09_project_book.service.AccountChapterService;
-import com.example.c09_project_book.service.AccountService;
-import com.example.c09_project_book.service.IAccountChapterService;
-import com.example.c09_project_book.service.IAccountService;
+import com.example.c09_project_book.service.*;
 import com.example.c09_project_book.utils.Library;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,15 +13,17 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
-    private IAccountService accountService=new AccountService();
-    private IAccountChapterService accountChapterService=new AccountChapterService();
+    private IAccountService accountService = new AccountService();
+    private IAccountChapterService accountChapterService = new AccountChapterService();
+    IHistoryBuyDtoService historyBuyDtoService=new HistoryBuyDtoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/views/login.jsp").forward(req,resp);
+        req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -44,8 +44,10 @@ public class LoginController extends HttpServlet {
         }
         HttpSession session = req.getSession();
         session.setAttribute("account", account);
-        int point= Library.getPoint(account.getId());
-        session.setAttribute("pointOfAccount",point);
+        int point = Library.getPoint(account.getId());
+        session.setAttribute("pointOfAccount", point);
+        List<HistoryBuyDto> historyBuyDto = historyBuyDtoService.getAll(account.getId());
+        session.setAttribute("historyList", historyBuyDto);
         if (account.getRole().equals("admin")) {
             resp.sendRedirect("/admin/accounts");
         } else {

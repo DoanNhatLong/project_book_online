@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Yuan
@@ -53,11 +54,10 @@
                 </a>
 
                 <button
-                        class="btn p-0 border-0 bg-transparent me-3"
+                        class="btn p-0 border-0 bg-transparent me-3 position-relative"
+                        style="font-size: 1.6rem;"
                         data-bs-toggle="modal"
                         data-bs-target="#historyModal"
-                        style="font-size: 1.6rem"
-                        title="Tủ sách"
                 >
                     📖
                 </button>
@@ -119,31 +119,53 @@
 </div>
 
 <div class="modal" id="historyModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Lịch sử đọc</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="border rounded p-3 h-100">
-                            <h6 class="text-center">Sách đã mua</h6>
-                        </div>
-                    </div>
 
-                    <div class="col-md-6">
-                        <div class="border rounded p-3 h-100">
-                            <h6 class="text-center">Lịch sử mua BP</h6>
-                        </div>
-                    </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Lịch sử mua sách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="border rounded p-3">
+
+                    <h6 class="text-center mb-3">Sách đã mua</h6>
+
+                    <c:choose>
+                        <c:when test="${empty historyList}">
+                            <p class="text-center text-muted">Chưa có lịch sử mua sách</p>
+                        </c:when>
+
+                        <c:otherwise>
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Tên sách</th>
+                                    <th>Thời gian mua</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${historyList}" var="h">
+                                    <tr>
+                                        <td>${h.bookName}</td>
+                                        <td>
+                                            <fmt:formatDate value="${h.buyTime}" pattern="dd/MM/yyyy HH:mm"/>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
 
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
             </div>
+
         </div>
     </div>
 </div>
