@@ -28,6 +28,7 @@ public class ClientController extends HttpServlet {
     IChapterDtoService chapterDtoService = new ChapterDtoService();
     IOrderItemService orderItemService = new OrderItemService();
     ITotalBuyDtoService totalBuyDtoService= new TotalBuyDtoService();
+    IHistoryBuyDtoService historyBuyDtoService=new HistoryBuyDtoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -394,7 +395,7 @@ public class ClientController extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        Order order = new Order(id_account, total, time);
+        Order order = new Order(id_customer, total, time);
         try {
             orderService.addOrder(order);
         } catch (SQLException e) {
@@ -422,6 +423,8 @@ public class ClientController extends HttpServlet {
         session.setAttribute("totalBuy",totalBuy);
         List<AuthorDto> totalAuthor= new AuthorDtoService().getAll();
         session.setAttribute("totalAuthor",totalAuthor);
+        List<HistoryBuyDto> historyBuyDto = historyBuyDtoService.getAll(account.getId());
+        session.setAttribute("historyList", historyBuyDto);
         session.setAttribute("cart", new HashMap<Integer, CartItem>());
         try {
             resp.sendRedirect(req.getContextPath() + "/clients");
