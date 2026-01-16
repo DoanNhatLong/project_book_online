@@ -26,7 +26,25 @@ WHERE isdeleted=0
   join order_item oi on oi.id_order=o.id
    join book b on b.id=oi.id_book
   where o.isdeleted=0  and o.id=5;
-  select b.name as book_name, o.time as buy_time 
-  from book b 
-  join order_item oi on b.id=oi.id_book
-  join `order` on 
+select b.name as book_name, o.time as buy_time 
+from book b 
+join order_item oi on b.id=oi.id_book
+join `order` o on o.id=oi.id_order
+join customer c on c.id=o.id_customer
+join account a on c.id_account = a.id
+where  a.isdeleted=0 and a.id=2;
+
+select b.name as book_name, sum(oi.quantity) as total_buy
+from book b
+join order_item oi on b.id=oi.id_book
+group by b.name
+order by total_buy desc
+limit 3;
+
+select max(id) as id from `order` where isdeleted=0;
+select b.author, sum(oi.quantity) as total_author
+from book b
+join order_item oi on  b.id=oi.id_book
+group by b.author
+order by total_author desc
+limit 5;

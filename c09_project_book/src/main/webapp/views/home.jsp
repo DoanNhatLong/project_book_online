@@ -62,11 +62,27 @@
                 </ul>
             </div>
             <div class="border rounded p-2 flex-fill d-flex flex-column justify-content-start">
-                <h6 class="text-center">Top 3 sách mua all </h6>
+                <h6 class="text-center">Top 3 sách mua nhiều nhất</h6>
+
                 <ul class="list-group list-group-flush mt-2">
-                    <li class="list-group-item">Sách 1</li>
-                    <li class="list-group-item">Sách 2</li>
-                    <li class="list-group-item">Sách 3</li>
+
+                    <c:choose>
+                        <c:when test="${empty sessionScope.totalBuy}">
+                            <li class="list-group-item text-muted text-center">
+                                Chưa có dữ liệu
+                            </li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <c:forEach items="${sessionScope.totalBuy}" var="t">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>${t.bookName}</span>
+                                    <span class="fw-semibold">${t.totalBuy}</span>
+                                </li>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
                 </ul>
             </div>
         </div>
@@ -129,7 +145,7 @@
 <div class="container mt-4 col-10" style="overflow: visible; position: relative; z-index: 1;">
 
     <div class="d-flex overflow-auto gap-3 py-2" style="white-space: nowrap;margin-top: 9rem" >
-        <c:forEach var="book" items="${sessionScope.initBookList}" begin="1" end="8">
+        <c:forEach var="book" items="${sessionScope.initBookList}" begin="1" end="9">
             <a href="/clients?action=book&id=${book.id}" class="d-block flex-shrink-0" style="width: 10rem; ">
                 <img src="${book.imageUrl}" alt="${book.name}"
                      class="img-fluid rounded"
@@ -144,16 +160,35 @@
         <div class="col-md-4">
             <div class="card bg-light mb-3">
                 <div class="card-header text-center">Tác giả yêu thích</div>
+
                 <ul class="list-group list-group-flush">
-                    <c:forEach var="i" begin="1" end="5">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>${i}. Tên sách ${i}</span>
-                            <span class="badge bg-primary rounded-pill">#</span>
-                        </li>
-                    </c:forEach>
+
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.totalAuthor}">
+                            <c:forEach var="item"
+                                       items="${sessionScope.totalAuthor}"
+                                       varStatus="st">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                ${st.index + 1}. ${item.author}
+                            </span>
+                                    <span class="badge bg-primary rounded-pill">
+                                            ${item.totalAuthor}
+                                    </span>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="list-group-item text-center text-muted">
+                                Không có dữ liệu
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+
                 </ul>
             </div>
         </div>
+
 
         <div class="col-md-4">
             <div class="card bg-light mb-3">

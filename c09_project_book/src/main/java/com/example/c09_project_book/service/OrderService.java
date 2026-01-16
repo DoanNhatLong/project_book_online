@@ -2,6 +2,7 @@ package com.example.c09_project_book.service;
 
 import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.entity.Order;
+import com.example.c09_project_book.entity.OrderItem;
 import com.example.c09_project_book.repository.IOrderRepository;
 import com.example.c09_project_book.repository.OrderRepository;
 
@@ -40,4 +41,10 @@ public class OrderService implements IOrderService {
     public Order findById(int id) {
         return orderRepository.findById(id);
     }
+
+    @Override
+    public int getNew() {
+        return orderRepository.getNew();
+    }
+
 }

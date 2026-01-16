@@ -14,4 +14,6 @@ public interface IOrderRepository {
     boolean saveOrder(Order order);
     boolean saveOrder(Order order, int idEdit);
     Order findById(int id);
+
+    int getNew();
 }

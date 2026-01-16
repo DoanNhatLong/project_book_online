@@ -31,7 +31,7 @@
 
                     <div class="col-md-4">
                         <input type="text"
-                               name="category"
+                               name="bookName"
                                class="form-control"
                                placeholder="Tên sách"
                                value="${bookName}">

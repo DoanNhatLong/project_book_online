@@ -104,5 +104,21 @@ public class OrderRepository implements IOrderRepository {
         return null;
     }
 
+    @Override
+    public int getNew() {
+        String sql="select max(id) as id from `order` where isdeleted=0;";
+        Connection connection=BaseConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
 
 }

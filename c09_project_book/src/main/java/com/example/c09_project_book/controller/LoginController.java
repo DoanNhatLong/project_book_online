@@ -1,6 +1,7 @@
 package com.example.c09_project_book.controller;
 
 import com.example.c09_project_book.dto.HistoryBuyDto;
+import com.example.c09_project_book.dto.TotalBuyDto;
 import com.example.c09_project_book.entity.Account;
 import com.example.c09_project_book.service.*;
 import com.example.c09_project_book.utils.Library;
@@ -18,8 +19,8 @@ import java.util.List;
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
     private IAccountService accountService = new AccountService();
-    private IAccountChapterService accountChapterService = new AccountChapterService();
     IHistoryBuyDtoService historyBuyDtoService=new HistoryBuyDtoService();
+    ITotalBuyDtoService totalBuyDtoService=new TotalBuyDtoService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
