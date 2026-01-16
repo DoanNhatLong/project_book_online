@@ -73,6 +73,15 @@ CREATE TABLE chapter (
     FOREIGN KEY (id_book) REFERENCES book(id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE `chapter_open` (
+	`id_account` INT NOT NULL,
+	`id_book` INT NOT NULL,
+	`chapter_open` INT NULL DEFAULT NULL,
+	PRIMARY KEY (`id_account`, `id_book`) USING BTREE,
+	INDEX `FK__book` (`id_book`) USING BTREE,
+	CONSTRAINT `FK__account` FOREIGN KEY (`id_account`) REFERENCES `account` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK__book` FOREIGN KEY (`id_book`) REFERENCES `book` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)ENGINE=InnoDB;
 -- =========================
 -- ACCOUNT_CHAPTER
 -- =========================
@@ -332,3 +341,12 @@ INSERT INTO `order_item` (id_order, id_book, quantity, price) VALUES
 (11, 5, 1, 50000),
 (11, 6, 1, 50000);
 
+insert into chapter_open (id_account,id_book,chapter_open) 
+values
+(2,1,3),
+(2,3,5),
+(3,3,3),
+(3,4,6),
+(4,1,2),
+(4,3,8),
+(4,4,2);

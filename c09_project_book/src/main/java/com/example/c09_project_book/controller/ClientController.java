@@ -97,24 +97,20 @@ public class ClientController extends HttpServlet {
         Integer openChapter = (Integer) session.getAttribute("openChapter");
         if (openChapter == null) openChapter = 0;
 
-        // chỉ cho mở chương kế tiếp
         if (chapter != openChapter + 1) {
             session.setAttribute("message", "Chương không hợp lệ");
             resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
             return;
         }
 
-        // 1️⃣ trừ point trước
         boolean success = Library.changePoint(Library.getAccountId(req), cost);
 
         if (!success) {
-            // 2️⃣ nếu trừ thất bại → KHÔNG mở chương
             session.setAttribute("message", "Không đủ point để mở chương");
             resp.sendRedirect(req.getContextPath() + "/views/client/chapter.jsp");
             return;
         }
 
-        // 3️⃣ trừ thành công → mở chương
         session.setAttribute("openChapter", openChapter + 1);
         session.setAttribute("message", "Đã trừ point và mở khóa chương " + chapter);
 
@@ -322,9 +318,6 @@ public class ClientController extends HttpServlet {
                 ? null
                 : req.getParameter("bookName").trim();
         Double price = req.getParameter("price").isEmpty() ? null : Double.parseDouble(req.getParameter("price"));
-        System.out.println(author);
-        System.out.println(price);
-        System.out.println(bookName);
         List<BookDetailDto> list = bookDetailDtoService.searchByMulti(author, bookName, price);
         req.setAttribute("list_book", list);
         try {
@@ -427,6 +420,8 @@ public class ClientController extends HttpServlet {
         }
         List<TotalBuyDto> totalBuy= totalBuyDtoService.getAll();
         session.setAttribute("totalBuy",totalBuy);
+        List<AuthorDto> totalAuthor= new AuthorDtoService().getAll();
+        session.setAttribute("totalAuthor",totalAuthor);
         session.setAttribute("cart", new HashMap<Integer, CartItem>());
         try {
             resp.sendRedirect(req.getContextPath() + "/clients");
