@@ -48,3 +48,7 @@ join order_item oi on  b.id=oi.id_book
 group by b.author
 order by total_author desc
 limit 5;
+
+select id, id_customer, id_account
+from `order`
+order by id desc;

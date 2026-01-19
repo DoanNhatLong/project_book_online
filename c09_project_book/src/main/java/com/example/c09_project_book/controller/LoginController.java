@@ -49,8 +49,8 @@ public class LoginController extends HttpServlet {
         session.setAttribute("pointOfAccount", point);
         List<HistoryBuyDto> historyBuyDto = historyBuyDtoService.getAll(account.getId());
         session.setAttribute("historyList", historyBuyDto);
-        if (account.getRole().equals("admin")) {
-            resp.sendRedirect("/admin/accounts");
+        if (account.getRole().equals("ADMIN")) {
+            resp.sendRedirect("/admin/account");
         } else {
             resp.sendRedirect("/views/home.jsp");
         }

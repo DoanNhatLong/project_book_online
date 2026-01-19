@@ -96,12 +96,17 @@
                                 <td>
                                     <a href="/admin/order?action=edit&id=${order.id}"
                                        class="btn btn-sm btn-primary">Sửa</a>
-                                    <a href="/admin/order?action=delete&id=${order.id}"
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?')">Xóa</a>
                                     <a href="/admin/order?action=approve&idOrder=${order.id}"
-                                       class="btn btn-sm btn-danger"
-                                       >Duyệt đơn</a>
+                                       class="btn btn-sm btn-success"
+                                    >Duyệt đơn</a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteOrderModal"
+                                            data-id="${order.id}">
+                                        Xóa
+                                    </button>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -117,5 +122,41 @@
 </div>
 
 <c:import url="../library-js.jsp"/>
+
+<div class="modal fade" id="deleteOrderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="get" action="/admin/order">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" id="deleteId">
+                    <p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Hủy
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        Xóa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteModal = document.getElementById('deleteOrderModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('deleteId').value = button.getAttribute('data-id');
+    });
+</script>
 </body>
 </html>

@@ -54,7 +54,7 @@
     <div class="row gx-4 align-items-stretch" style="height: 20rem;">
         <div class="col-2 d-flex flex-column gap-3">
             <div class="border rounded p-2 flex-fill d-flex flex-column justify-content-start">
-                <h6 class="text-center">Top 3 sách mua tháng</h6>
+                <h6 class="text-center">Sách mua trong tháng</h6>
                 <ul class="list-group list-group-flush mt-2">
                     <li class="list-group-item">Sách 1</li>
                     <li class="list-group-item">Sách 2</li>
@@ -62,7 +62,7 @@
                 </ul>
             </div>
             <div class="border rounded p-2 flex-fill d-flex flex-column justify-content-start">
-                <h6 class="text-center">Top 3 sách mua nhiều nhất</h6>
+                <h6 class="text-center">Sách mua nhiều nhất</h6>
 
                 <ul class="list-group list-group-flush mt-2">
 
@@ -124,7 +124,7 @@
 
         <div class="col-2 d-flex flex-column gap-3">
             <div class="border rounded p-2 flex-fill d-flex flex-column justify-content-start">
-                <h6 class="text-center">Top 3 sách vừa mở khóa</h6>
+                <h6 class="text-center">Top sách mở khóa</h6>
                 <ul class="list-group list-group-flush mt-2">
                     <li class="list-group-item">Sách 1</li>
                     <li class="list-group-item">Sách 2</li>
@@ -132,7 +132,7 @@
                 </ul>
             </div>
             <div class="border rounded p-2 flex-fill d-flex flex-column justify-content-start">
-                <h6 class="text-center">Top 3 sách mở khóa all </h6>
+                <h6 class="text-center">Top sách mở khóa all </h6>
                 <ul class="list-group list-group-flush mt-2">
                     <li class="list-group-item">Sách 1</li>
                     <li class="list-group-item">Sách 2</li>
