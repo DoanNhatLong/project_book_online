@@ -253,10 +253,10 @@ insert into payment_type(name,rate) values
 ('Visa',10);
 INSERT INTO customer (id_account, name, phone, email, address)
 VALUES
-    (2, 'Nguyen Van A', '0901000001', 'a@example.com', '123 Đường A, Quận 1'),
-    (3, 'Tran Thi B', '0901000002', 'b@example.com', '456 Đường B, Quận 2'),
-    (4, 'Le Van C', '0901000003', 'c@example.com', '789 Đường C, Quận 3'),
-    (5, 'Pham Thi D', '0901000004', 'd@example.com', '101 Đường D, Quận 4');
+    (2, 'Nguyen Ngọc Hy', '0901000001', 'hi112@example.com', '123 Đường A, Quận 1'),
+    (3, 'Nguyễn Minh Trí', '0901000002', 'tri12@example.com', '456 Đường B, Quận 2'),
+    (4, 'Đoàn Nhật Long', '0901000003', 'long11@example.com', '789 Đường C, Quận 3'),
+    (5, 'Lê Hoàn', '0901000004', 'lhoan@example.com', '101 Đường D, Quận 4');
 
 
 
@@ -264,7 +264,7 @@ insert into chapter(id_book,chapter_unlock, point) values
 (1,5,10),(4,10,15),(3,7,20);
 insert into account_chapter (id_account,id_chapter,point)
 values
-(2,2,0),(3,1,1000),(4,3,50);
+(1,3,600), (2,2,0),(3,1,1000),(4,3,50);
 UPDATE book
 SET image_url = CASE id
     WHEN 1 THEN 'https://res.cloudinary.com/da5ho5hdl/image/upload/v1768489088/img_2_c9y5dd.png'

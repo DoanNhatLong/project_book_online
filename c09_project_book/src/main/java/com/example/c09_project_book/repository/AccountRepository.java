@@ -19,7 +19,7 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public Account findAccount(String username, String password) throws SQLException {
         Connection connection = BaseConnection.getConnection();
-        String sql = "select * from account where username=? and password=? and isdeleted=0";
+        String sql = "select * from account where username=? and password=? and isdeleted=0 and islocked=0";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
         preparedStatement.setString(2, password);
